@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="resource/css/login.html.css">
+    <title>Login - sungbly accountV5</title>
+    <link rel="stylesheet" type="text/css" href="css/uni.css">
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/UI.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        getInfo();
+        var authID;
+        var callback;
+        function getInfo(){
+            var info = getLoginInfo();
+            console.log('info',info)
+            for(var i = 0;i<info.length;i++){
+                if(info[i].substring(0,6)=='authID'){
+                    authID = info[i].split('=')[1];
+                    console.log('authID',authID)
+                }
+                if(info[i].substring(0,8)=='callback'){
+                    callback = info[i].split('=')[1];
+                    console.log('callback',callback)
+                }
+            }
+        }
+    </script>
 </head>
 <body>
-    <div id="head">
-        <h1 id="head-title">Login</h1>
+    <div class="top-bar">
+        <h1 class="top-bar-title">sungbly accountV5</h1>
+    </div>
+    <div class="main">
+        <h1 class="title">Login - sungbly accountV5</h1>
+        <hr>
+        <div class="input" style="position: relative;top:13%" onclick="focusMove(document.getElementById('username'))">
+            <p class="input-title">username:</p>
+            <input class="input-input" id="username"></input>
+        </div>
+        <div class="input" style="position: relative;top:20%" onclick="focusMove(document.getElementById('password'))">
+            <p class="input-title">password:</p>
+            <input class="input-input" id="password" type="password"></input>
+        </div>
+        <div class="button" style="position:relative;top:35%;left:45%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback)"><p style="position:relative;top:15%">Login</p></div>
     </div>
 </body>
