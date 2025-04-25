@@ -1,9 +1,10 @@
-async function login(account,password,authID,callback) {
+async function login(account,password,authID,callback,cftsToken) {
     const targetUrl = 'https://accountsv.838483.xyz/api/login';
     const requestBody = {
         username: account,
         password: password,
-        authID: authID
+        authID: authID,
+        key: cftsToken
     };
     const customHeaders = {
         'Content-Type': 'application/json'

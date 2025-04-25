@@ -1,9 +1,10 @@
-async function register(account,password,email,callback) {
+async function register(account,password,email,callback,cftsToken) {
     const targetUrl = 'https://accountsv.838483.xyz/api/register';
     const requestBody = {
         username: account,
         password: password,
-        mail: email
+        mail: email,
+        key: cftsToken
     };
     const customHeaders = {
         'Content-Type': 'application/json'

@@ -27,7 +27,8 @@
         turnstile.render("#cf-turnstile", {
             sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
             callback: function (token) {
-            console.log(`Challenge Success ${token}`);
+                console.log(`Challenge Success ${token}`);
+                cftsToken = token;
             },
             theme: "light"
         });
@@ -53,7 +54,7 @@
             <p class="input-title" style="position:relative;top:-20%">email:</p>
             <input class="input-input" id="mail" style="position:relative;top:-20%"></input>
         </div>
-        <div class="button" style="position:absolute;top:91%;left:43%" onclick="register(document.getElementById('username').value,document.getElementById('password').value,document.getElementById('mail').value,callback)"><p style="position:relative;top:-35%">Register</p></div>
+        <div class="button" style="position:absolute;top:91%;left:43%" onclick="register(document.getElementById('username').value,document.getElementById('password').value,document.getElementById('mail').value,callback,cftsToken)"><p style="position:relative;top:-35%">Register</p></div>
         <div
                 class="cf-turnstile"
                 id="cf-turnstile"

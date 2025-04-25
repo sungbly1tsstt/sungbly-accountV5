@@ -12,6 +12,7 @@
         getInfo();
         var authID;
         var callback;
+        var cftsToken;
         function getInfo(){
             var info = getLoginInfo();
             console.log('info',info)
@@ -31,7 +32,8 @@
         turnstile.render("#cf-turnstile", {
             sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
             callback: function (token) {
-            console.log(`Challenge Success ${token}`);
+                console.log(`Challenge Success ${token}`);
+                cftsToken = token;
             },
             theme: "light"
         });
@@ -53,7 +55,7 @@
             <p class="input-title" style="position:relative;top:-20%">password:</p>
             <input class="input-input" id="password" type="password" style="position:relative;top:-20%"></input>
         </div>
-        <div class="button" style="position:absolute;top:85%;left:43%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback)"><p style="position:relative;top:-35%">Login</p></div>
+        <div class="button" style="position:absolute;top:85%;left:43%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback,cftsToken)"><p style="position:relative;top:-35%">Login</p></div>
         <div
                 class="cf-turnstile"
                 id="cf-turnstile"
