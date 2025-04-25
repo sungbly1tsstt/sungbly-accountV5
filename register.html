@@ -6,6 +6,7 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/UI.js"></script>
     <script src="js/register.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
     <script>
         console.log('btoa("https://838483.xyz?")',btoa("https://838483.xyz?"))
         getInfo();
@@ -21,6 +22,16 @@
                 }
             }
         }
+        // if using synchronous loading, will be called once the DOM is ready
+        turnstile.ready(function () {
+        turnstile.render("#cf-turnstile", {
+            sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+            callback: function (token) {
+            console.log(`Challenge Success ${token}`);
+            },
+            theme: "light"
+        });
+        });
     </script>
 </head>
 <body>
@@ -30,19 +41,26 @@
     <div class="main">
         <h1 class="title">register - sungbly accountV5</h1>
         <hr>
-        <div class="input" style="position: absolute;top:25%;left:10%" onclick="focusMove(document.getElementById('username'))">
+        <div class="input" style="position: absolute;top:20%;left:10%" onclick="focusMove(document.getElementById('username'))">
             <p class="input-title" style="position:relative;top:-20%">username:</p>
             <input class="input-input" id="username" style="position:relative;top:-20%"></input>
         </div>
-        <div class="input" style="position: absolute;top:45%;left:10%" onclick="focusMove(document.getElementById('password'))">
+        <div class="input" style="position: absolute;top:40%;left:10%" onclick="focusMove(document.getElementById('password'))">
             <p class="input-title" style="position:relative;top:-20%">password:</p>
             <input class="input-input" id="password" type="password" style="position:relative;top:-20%"></input>
         </div>
-        <div class="input" style="position: absolute;top:65%;left:10%" onclick="focusMove(document.getElementById('mail'))">
+        <div class="input" style="position: absolute;top:60%;left:10%" onclick="focusMove(document.getElementById('mail'))">
             <p class="input-title" style="position:relative;top:-20%">email:</p>
             <input class="input-input" id="mail" style="position:relative;top:-20%"></input>
         </div>
-        <div class="button" style="position:absolute;top:85%;left:45%" onclick="register(document.getElementById('username').value,document.getElementById('password').value,document.getElementById('mail').value,callback)"><p style="position:relative;top:-35%">Register</p></div>
+        <div class="button" style="position:absolute;top:91%;left:43%" onclick="register(document.getElementById('username').value,document.getElementById('password').value,document.getElementById('mail').value,callback)"><p style="position:relative;top:-35%">Register</p></div>
+        <div
+                class="cf-turnstile"
+                id="cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 77%;left: 30%;"
+        ></div> 
         <a href="login.html" style="position: absolute;top:94%;left:2%;">Login</a>
     </div>
 </body>

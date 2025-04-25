@@ -6,6 +6,7 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/UI.js"></script>
     <script src="js/login.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
     <script>
         console.log('btoa("https://838483.xyz?")',btoa("https://838483.xyz?"))
         getInfo();
@@ -25,6 +26,16 @@
                 }
             }
         }
+        // if using synchronous loading, will be called once the DOM is ready
+        turnstile.ready(function () {
+        turnstile.render("#cf-turnstile", {
+            sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+            callback: function (token) {
+            console.log(`Challenge Success ${token}`);
+            },
+            theme: "light"
+        });
+        });
     </script>
 </head>
 <body>
@@ -34,15 +45,22 @@
     <div class="main">
         <h1 class="title">Login - sungbly accountV5</h1>
         <hr>
-        <div class="input" style="position: relative;top:13%" onclick="focusMove(document.getElementById('username'))">
-            <p class="input-title">username:</p>
-            <input class="input-input" id="username"></input>
+        <div class="input" style="position: absolute;top:20vh;left:10vh" onclick="focusMove(document.getElementById('username'))">
+            <p class="input-title" style="position:relative;top:-20%">username:</p>
+            <input class="input-input" id="username" style="position:relative;top:-20%"></input>
         </div>
-        <div class="input" style="position: relative;top:20%" onclick="focusMove(document.getElementById('password'))">
-            <p class="input-title">password:</p>
-            <input class="input-input" id="password" type="password"></input>
+        <div class="input" style="position: absolute;top:35vh;left:10vh" onclick="focusMove(document.getElementById('password'))">
+            <p class="input-title" style="position:relative;top:-20%">password:</p>
+            <input class="input-input" id="password" type="password" style="position:relative;top:-20%"></input>
         </div>
-        <div class="button" style="position:relative;top:35%;left:45%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback)"><p style="position:relative;top:15%">Login</p></div>
+        <div class="button" style="position:absolute;top:85%;left:43%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback)"><p style="position:relative;top:-35%">Login</p></div>
+        <div
+                class="cf-turnstile"
+                id="cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 68%;left: 30%;"
+        ></div> 
         <a onclick="location.href='register.html?callback='+btoa(location.href)" style="position: absolute;top:94%;left:2%;color:blue;text-decoration: underline;">Register</a>
     </div>
 </body>
