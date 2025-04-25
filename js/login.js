@@ -40,6 +40,9 @@ async function login(account,password,authID,callback,cftsToken) {
         case 500:
             alert('服务器错误')
             break;
+        case 403:
+            alert('人机验证令牌无效 请刷新页面重试')
+            break;
     }
 }
 function getLoginInfo(){
