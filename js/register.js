@@ -1,9 +1,9 @@
-async function login(account,password,authID,callback) {
-    const targetUrl = 'https://accountsv.838483.xyz/api/login';
+async function register(account,password,email,callback) {
+    const targetUrl = 'https://accountsv.838483.xyz/api/register';
     const requestBody = {
         username: account,
         password: password,
-        authID: authID
+        mail: email
     };
     const customHeaders = {
         'Content-Type': 'application/json'
@@ -30,18 +30,18 @@ async function login(account,password,authID,callback) {
             if(accountInfo.text.substring(0,10)=='Not Allow2'){
                 alert('账户或密码中有字符被拦截')
             }else{
-                alert('用户名或密码错误')
+                alert('账户名或邮箱已被用于创建账户！')
             }
             break;
         case 200:
-            location.href = window.atob(callback)+'token='+accountInfo.token+'&uid='+accountInfo.uid
+            location.href = window.atob(callback);
             break;
         case 500:
             alert('服务器错误')
             break;
     }
 }
-function getLoginInfo(){
+function getRegisterInfo(){
     if(location.href.indexOf('?')==-1){
         return []
     }else{
