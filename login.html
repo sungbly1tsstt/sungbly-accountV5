@@ -41,16 +41,26 @@
             theme: "light"
         });
         });
+        function onLoad(){
+            if(typeof authID !== 'undefined'){
+            document.getElementById('authID').innerHTML = 'authID:'+ authID;
+            }
+        }
+        function invalidCallbackUrl(){
+            var dialog = document.getElementById('invaild-callbackUrl');
+            dialog.showModal();
+        }
     </script>
 </head>
-<body>
+<body onload="onLoad()">
     <div class="top-bar">
         <h1 class="top-bar-title">sungbly accountV5</h1>
+        <h1 class="top-bar-left" id="authID"></h1>
     </div>
     <div class="main">
         <h1 class="title">Login - sungbly accountV5</h1>
         <hr>
-        <div class="input" style="position: absolute;top:20vh;left:10vh" onclick="focusMove(document.getElementById('username'))">
+        <div class="input" style="position: absolute;top:20vh;left:10vh;" onclick="focusMove(document.getElementById('username'))">
             <p class="input-title" style="position:relative;top:-20%">username:</p>
             <input class="input-input" id="username" style="position:relative;top:-20%"></input>
         </div>
@@ -58,14 +68,24 @@
             <p class="input-title" style="position:relative;top:-20%">password:</p>
             <input class="input-input" id="password" type="password" style="position:relative;top:-20%"></input>
         </div>
-        <div class="button" style="position:absolute;top:85%;left:43%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback,cftsToken)"><p style="position:relative;top:-35%">Login</p></div>
+        <div class="button" style="position:absolute;top:85%;left:43%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,authID,callback,cftsToken,document.getElementById('invaild-callbackUrl'))"><p style="position:relative;top:-35%">Login</p></div>
         <div
                 class="cf-turnstile"
                 id="cf-turnstile"
                 data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
                 data-callback="javascriptCallback"
                 style="position: absolute;top: 68%;left: 30%;"
-        ></div> 
+        ></div>
+        <dialog id="invaild-callbackUrl" style="height: 45%;width: 60%;">
+            <button onclick="document.getElementById('invaild-callbackUrl').close()" style="position:relative;right:-95%;">关闭</button>
+            <h1 style="position: static;text-align: center;color:red;">Invalid callback URL</h1>
+            <p style="position: static;text-align: center;color: red;">该页面的回调地址与注册信息不一致，请核对来源是否正确，谨防该平台账户被盗。</p>
+            <br>
+            <p style="position: static;text-align: center;color: red;">如果你确认回调地址无误 请输入回调地址中的域名(包含子域名)</p>
+            <input type="text" id="callbackUrl" style="position: static;text-align: center;width: 80%;margin-left: 10%;margin-right: 10%;" placeholder="示例：account.838483.xyz">
+            <br>
+            <div class="button" style="position:absolute;top:85%;left:44%" onclick="verifyCallbackWarning(document.getElementById('callbackUrl').value)"><p style="position:relative;top:-35%">验证</p></div>
+        </dialog>
         <a onclick="location.href='register.html?callback='+btoa(location.href)" style="position: absolute;top:94%;left:2%;color:blue;text-decoration: underline;">Register</a>
     </div>
 </body>

@@ -80,3 +80,17 @@ hr{
 body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.top-bar-left{
+    position: absolute;
+    top:-15%;
+    right:1%;
+}
+dialog{
+    border-radius: 10px;
+    border: 0px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+dialog::backdrop {
+    background-color: rgba(16, 16, 16, 0.5);
+}
