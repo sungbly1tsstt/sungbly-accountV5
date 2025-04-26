@@ -11,7 +11,7 @@ async function login(account,password,authID,callback,cftsToken) {
     };
     var accountInfo;
     await $.ajax({
-        url: '//accountsv.838483.xyz/api/test-request',
+        url: '//accountsv.838483.xyz/api/login',
         type: 'POST',
         data: JSON.stringify({ targetUrl: targetUrl, requestBody: requestBody, headers: customHeaders }),
         contentType: 'application/json',

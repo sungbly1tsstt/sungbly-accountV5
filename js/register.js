@@ -11,7 +11,7 @@ async function register(account,password,email,callback,cftsToken) {
     };
     var accountInfo;
     await $.ajax({
-        url: '//accountsv.838483.xyz/api/test-request',
+        url: '//accountsv.838483.xyz/api/register',
         type: 'POST',
         data: JSON.stringify({ targetUrl: targetUrl, requestBody: requestBody, headers: customHeaders }),
         contentType: 'application/json',
