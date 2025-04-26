@@ -32,14 +32,19 @@ async function login(account,password,authID,callback,cftsToken,vaildDomaindialo
     console.log('acceptDomain',acceptDomain)
         switch(accountInfo.code){
             case 401:
-                if(accountInfo.text.substring(0,10)=='Not Allow2'){
-                    alert('账户或密码中有字符被拦截')
-                }else{
-                    if(accountInfo.text.substring(0,10)=='Not Allow1'){
-                        alert('发送数据包参数缺失 请联系网站管理员')
-                    }else{
+                switch(accountInfo.text.substring(0,10)){
+                    case 'Not Allow1':
+                        alert('发送数据包参数缺失 请联系sungbly account网站管理员')
+                        break;
+                    case 'Not Allow2':
+                        alert('账户或密码中有字符被拦截')
+                        break;
+                    case 'auth app I':
+                        alert('authID错误 请联系欲登录网站的管理员')
+                        break;
+                    case 'username o':
                         alert('用户名或密码错误')
-                    }
+                        break;
                 }
                 break;
             case 200:
