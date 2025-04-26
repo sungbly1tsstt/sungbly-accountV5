@@ -75,5 +75,7 @@ function getLoginInfo(){
 function verifyCallbackWarning(input){
     if(input == accountInfo.accept_domain){
         location.href = window.atob(callback)+'token='+accountInfo.token+'&uid='+accountInfo.uid;
+    }else{
+        alert('域名不匹配')
     }
 }
