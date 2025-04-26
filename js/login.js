@@ -31,11 +31,15 @@ async function login(account,password,authID,callback,cftsToken) {
             if(accountInfo.text.substring(0,10)=='Not Allow2'){
                 alert('账户或密码中有字符被拦截')
             }else{
-                alert('用户名或密码错误')
+                if(accountInfo.text.substring(0,10)=='Not Allow1'){
+                    alert('发送数据包参数缺失 请联系网站管理员')
+                }else{
+                    alert('用户名或密码错误')
+                }
             }
             break;
         case 200:
-            location.href = window.atob(callback)+'token='+accountInfo.token+'&uid='+accountInfo.uid
+            location.href = window.atob(callback)+'token='+accountInfo.token+'&uid='+accountInfo.uid;
             break;
         case 500:
             alert('服务器错误')

@@ -31,7 +31,15 @@ async function register(account,password,email,callback,cftsToken) {
             if(accountInfo.text.substring(0,10)=='Not Allow2'){
                 alert('账户或密码中有字符被拦截')
             }else{
-                alert('账户名或邮箱已被用于创建账户！')
+                if(accountInfo.text.substring(0,10)=='Not Allow2'){
+                    alert('账户或密码中有字符被拦截')
+                }else{
+                    if(accountInfo.text.substring(0,10)=='Not Allow1'){
+                        alert('发送数据包参数缺失 请联系网站管理员')
+                    }else{
+                        alert('用户名或密码错误')
+                    }
+                }
             }
             break;
         case 200:
