@@ -1,5 +1,6 @@
 async function register(account,password,email,callback,cftsToken) {
-    const targetUrl = 'https://accountsv.838483.xyz/api/register';
+    if(typeof cftsToken != "undefined"){
+        const targetUrl = 'https://accountsv.838483.xyz/api/register';
     const requestBody = {
         username: account,
         password: password,
@@ -11,7 +12,7 @@ async function register(account,password,email,callback,cftsToken) {
     };
     var accountInfo;
     await $.ajax({
-        url: '//accountsv.838483.xyz/api/registerynm,. /',
+        url: '//accountsv.838483.xyz/api/register',
         type: 'POST',
         data: JSON.stringify({ targetUrl: targetUrl, requestBody: requestBody, headers: customHeaders }),
         contentType: 'application/json',
@@ -51,6 +52,9 @@ async function register(account,password,email,callback,cftsToken) {
         case 403:
             alert('人机验证令牌无效 请刷新页面重试')
             break;
+    }
+    }else{
+        alert('请等待人机验证完成')
     }
 }
 function getRegisterInfo(){

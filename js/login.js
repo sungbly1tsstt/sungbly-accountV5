@@ -1,6 +1,7 @@
 var accountInfo;
 var acceptDomain;
 async function login(account,password,authID,callback,cftsToken,vaildDomaindialog) {
+    if(typeof cftsToken != "undefined"){
     const targetUrl = 'https://accountsv.838483.xyz/api/login';
     const requestBody = {
         username: account,
@@ -55,6 +56,9 @@ async function login(account,password,authID,callback,cftsToken,vaildDomaindialo
                 alert('人机验证令牌无效 请刷新页面重试')
                 break;
             }
+    }else{
+        alert('请等待人机验证完成')
+    }
 }
 function getLoginInfo(){
     if(location.href.indexOf('?')==-1){
