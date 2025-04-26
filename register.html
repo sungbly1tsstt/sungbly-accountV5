@@ -15,6 +15,9 @@
         function getInfo(){
             var info = getRegisterInfo();
             console.log('info',info)
+            if(info.length<1){
+                alert('参数缺失 请从登录网站中跳转');
+            }
             for(var i = 0;i<info.length;i++){
                 if(info[i].substring(0,8)=='callback'){
                     callback = info[i].split('=')[1];
