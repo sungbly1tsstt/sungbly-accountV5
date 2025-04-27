@@ -52,6 +52,7 @@ async function login(account,password,authID,callback,cftsToken,vaildDomaindialo
                     location.href = window.atob(callback)+'token='+accountInfo.token+'&uid='+accountInfo.uid;
                 }else{
                     vaildDomaindialog.showModal();
+                    document.getElementById('callbackUrl').value = acceptDomain;
                 }
                 break;
             case 500:
