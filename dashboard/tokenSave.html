@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <title>Login - sungbly accountV5</title>
+    <link rel="stylesheet" type="text/css" href="../css/uni.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/UI.js"></script>
+    <script src="../js/packPOST.js"></script>
+    <script src="../js/st cookie.js"></script>
+    <script>
+        var token,uid;
+        function getLoginInfo(){
+            if(location.href.indexOf('?')==-1){
+                return []
+            }else{
+            return location.href.split('?')[1].split('&')
+            }
+        }
+        async function onload(){
+            var info=getLoginInfo();
+            for(var i = 0;i<info.length;i++){
+                if(info[i].substring(0,5)=='token'){
+                    token = info[i].split('=')[1];
+                    console.log('token',token)
+                }
+                if(info[i].substring(0,3)=='uid'){
+                    uid = info[i].split('=')[1];
+                    console.log('uid',uid)
+                }
+            }
+            if(token && uid){
+                var verify = await packPOST('https\:\/\/accountsv.838483.xyz/api/tokenChk',{token:token,uid:uid,authID:'sungbly_account_dashboard'})
+                if(verify.code == 200){
+                    setCookie('dashboard_token',token,90);
+                    setCookie('dashboard_uid',uid,90);
+                    // location.href = 'dashboard.html';
+                }else{
+                    location.href = 'index.html';
+                }
+            }else{
+                document.getElementById('tips').innerHTML = 'Invalid token or uid';
+            }
+        }
+    </script>
+</head>
+<body onload="onload()">
+    <div class="top-bar">
+        <h1 class="top-bar-title">sungbly accountV5</h1>
+        <h1 class="top-bar-left">Dashboard</h1>
+    </div>
+    <div class="main">
+        <div style="position:absolute;top:40%;width: 100%;"><h1 style="position:static;text-align: center;" id="tips">please wait while we are logging you in...</h1></div>
+    </div>
+    </div>
+</body>

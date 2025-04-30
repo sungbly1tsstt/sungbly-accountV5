@@ -94,3 +94,59 @@ dialog{
 dialog::backdrop {
     background-color: rgba(16, 16, 16, 0.5);
 }
+.button_oval{
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    font-size: large;
+    line-height: 45px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.button_oval:hover{
+    background-color: rgb(33, 33, 33);
+    color: white;
+    text-align: center;
+    border-radius: 30px;
+    border: 0px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.button_oval:active{
+    background-color: rgb(166, 166, 166);
+    color: white;
+    text-align: center;
+    border-radius: 30px;
+    border: 0px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+@-moz-document url-prefix() {
+    .button_oval{
+        background-color: black;
+        color: white;
+        border-radius: 30px;
+        width: 150px;
+        height: 50px;
+        text-align: center;
+        font-size: large;
+        line-height: 45px;
+    }
+    .button_oval:hover{
+        background-color: rgb(33, 33, 33);
+        color: white;
+        text-align: center;
+        border-radius: 30px;
+        border: 0px;
+    }
+    .button_oval:active{
+        background-color: rgb(166, 166, 166);
+        color: white;
+        text-align: center;
+        border-radius: 30px;
+        border: 0px;
+    }
+}

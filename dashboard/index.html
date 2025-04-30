@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <title>Login - sungbly accountV5</title>
+    <link rel="stylesheet" type="text/css" href="../css/uni.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/UI.js"></script>
+    <script src="../js/st cookie.js"></script>
+    <script>
+        if(getCookie("dashboard_token") != "" && getCookie("dashboard_uid") != ""){
+            location.href = "dashboard.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="top-bar">
+        <h1 class="top-bar-title">sungbly accountV5</h1>
+        <h1 class="top-bar-left">Dashboard</h1>
+    </div>
+    <div class="main">
+        <h1 style="position:absolute;top:18%;left:23%;">sungbly accountV5 dashboard</h1>
+        <div class="button_oval" style="position:absolute;top:65%;left:40%;" onclick="location.href='https\:\/\/account.838483.xyz/login.html?authID=sungbly_account_dashboard&callback=aHR0cHM6Ly9hY2NvdW50LjgzODQ4My54eXovZGFzaGJvYXJkL3Rva2VuU2F2ZS5odG1sPw=='">Login</div>
+    </div>
+    </div>
+</body>

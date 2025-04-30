@@ -81,7 +81,7 @@
             <h1 style="position: static;text-align: center;color:red;">Invalid callback URL</h1>
             <p style="position: static;text-align: center;color: red;">该页面的回调地址与注册信息不一致，请核对来源是否正确，谨防该平台账户被盗。</p>
             <br>
-            <p style="position: static;text-align: center;color: red;">如果你确认回调地址无误 请将该域名修正至该authID注册信息的域名(不包含三级域名)</p>
+            <p style="position: static;text-align: center;color: red;">如果你确认回调地址无误 请将该域名修正至该authID注册信息的域名(包含三级域名)</p>
             <input type="text" id="callbackUrl" style="position: static;text-align: center;width: 80%;margin-left: 10%;margin-right: 10%;" placeholder="示例：838483.xyz">
             <br>
             <div class="button" style="position:absolute;top:85%;left:44%" onclick="verifyCallbackWarning(document.getElementById('callbackUrl').value)"><p style="position:relative;top:-35%">验证</p></div>
