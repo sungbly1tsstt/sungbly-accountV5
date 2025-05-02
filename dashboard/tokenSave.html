@@ -31,9 +31,13 @@
             if(token && uid){
                 var verify = await packPOST('https\:\/\/accountsv.838483.xyz/api/tokenChk',{token:token,uid:uid,authID:'sungbly_account_dashboard'})
                 if(verify.code == 200){
-                    setCookie('dashboard_token',token,90);
-                    setCookie('dashboard_uid',uid,90);
-                    // location.href = 'dashboard.html';
+                    var name = await packPOST('https\:\/\/accountsv.838483.xyz/api/uidGetName',{uid:uid})
+                    if(name.success == true){
+                        setCookie('dashboard_token',token,90);
+                        setCookie('dashboard_uid',uid,90);
+                        setCookie('dashboard_username',name.name,90);
+                        location.href = 'dashboard.html';
+                    }
                 }else{
                     location.href = 'index.html';
                 }

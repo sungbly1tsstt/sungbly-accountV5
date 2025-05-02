@@ -150,3 +150,32 @@ dialog::backdrop {
         border: 0px;
     }
 }
+.left-menu{
+    position: relative;
+    top: -2vh;
+    background-color:aliceblue;
+    height: calc(100% - 2vh);
+    width: 100%;
+    border-radius: 5px;
+}
+.button_grey{
+    background-color: rgb(187, 187, 187);
+    border: 0px;
+    border-radius: 5px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.button_grey:hover{
+    background-color: rgb(123, 123, 123);
+    border: 0px;
+    border-radius: 5px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.button_grey:hover{
+    background-color: rgb(212, 212, 212);
+    border: 0px;
+    border-radius: 5px;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}

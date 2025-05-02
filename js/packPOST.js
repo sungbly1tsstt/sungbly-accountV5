@@ -1,8 +1,8 @@
 //先引入jq再运行
 async function packPOST(url, data) {
     var info;
-    const targetUrl = url;
-    const customHeaders = {
+    var targetUrl = url;
+    var customHeaders = {
             'Content-Type': 'application/json'
         };
     await $.ajax({
