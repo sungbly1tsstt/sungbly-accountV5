@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: #f2f2f2;
+            }
+        </style>
+        <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="../../css/uni.css">
+        <script src="../../js/st cookie.js"></script>
+        <script>
+            function onLoad(){
+                if(getCookie("dashboard_insideToken") == ""){
+                    location.href = "insideTokenGet.html"
+                }
+                var username = getCookie("dashboard_username");
+                document.getElementById("username").value = username;
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <h1>Profile</h1>
+        <hr style="width: 100%;">
+        <h3>username:&nbsp<input type="text" id="username"></h3>
+    </body>
+</html>

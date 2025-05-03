@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - sungbly accountV5</title>
+    <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../css/uni.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+
     <script src="../js/jquery-3.7.1.min.js"></script>
     <script src="../js/UI.js"></script>
     <script src="../js/st cookie.js"></script>
     <script>
+        const href = [ 'board/account.html' , 'board/developer.html' ];
         if(getCookie("dashboard_token") == "" || getCookie("dashboard_uid") == "" || getCookie("dashboard_username") == ""){
             location.href = "index.html";
         }
         function onload(){
             document.getElementById("username").innerHTML = "&nbsp;"+getCookie("dashboard_username");
+            sideBarButtonLoad();
+            console.warn("不要将cookie泄露给其他人！")
+            console.warn("不要将cookie泄露给其他人！")
+            console.warn("不要将cookie泄露给其他人！")
+            console.warn("将cookie泄露给其他人将会导致账户被盗！")
         }
         function logout(){
             clearCookie("dashboard_token");
             clearCookie("dashboard_uid");
             clearCookie("dashboard_username");
+            clearCookie("dashboard_insideToken");
             location.href = "logout.html";
+        }
+        function sideBarButtonLoad() {
+            var activeButton = null; // 用于存储当前激活的按钮
+            $('.side-menu_button_none').click(function() {
+                if ($(this).hasClass('side-menu_button_active') != true){
+                    if (activeButton) {
+                        activeButton.removeClass('side-menu_button_active').addClass('side-menu_button_none');
+                    }
+                    $(this).removeClass('side-menu_button_none').addClass('side-menu_button_active');
+                    activeButton = $(this); // 更新当前激活的按钮
+                    var index = Number($(this).attr('id'));
+                    $('#board').attr('src', href[index - 1]);
+                }
+            });
         }
     </script>
 </head>
-<body onload="onload()">
+<body onload="onload()" style="overflow-y: hidden;">
     <div class="top-bar" style="position: fixed;">
         <h1 class="top-bar-title">sungbly accountV5</h1>
         <h1 class="top-bar-left">Dashboard</h1>
@@ -32,18 +57,24 @@
                 <td style="width:20%;height:100%;">
                     <div class="left-menu">
                         <dl>
-                            <dt style="text-align: center;">
-                                <div id="user" style="background-color: rgb(174, 174, 174); border-radius: 4px;height: 10vh;width: 98%;left:0.5%;top:0.5vh;position: relative;">
+                            <dt style="text-align: center;background-color: rgb(174, 174, 174); border-radius: 4px;height: 10vh;width: 98%;left:0.5%;top:0.5vh;position: relative;">
+                                <div id="user">
                                     <h3 style="color: rgb(83, 83, 83);text-align: left;">&nbsp;sungbly accountV5</h3>
                                     <h2 style="color: rgb(83, 83, 83);text-align: left;" id="username"></h2>
-                                    <button style="position: absolute;right: 1%;top: 0.5vh;" class="button_grey" onclick="logout()">Logout</button>
+                                    <div style="position: absolute;right: 1%;top: 0.5vh;" class="button_grey" onclick="logout()">Logout</div>
                                 </div>
+                            </dt>
+                            <dt class="side-menu_button_none" id="1">
+                                <p class="fas fa-user">account</p>
+                            </dt>
+                            <dt class="side-menu_button_none" id="2">
+                                <p class="fa-solid fa-code">developer tools</p>
                             </dt>
                         </dl>
                     </div>
                 </td>
                 <td style="width:80%;height:100%;">
-
+                    <iframe src="board/default.html" style="position: relative;top: -0.3%;width:100%;height: calc(100% - 2vh);border-radius: 5px;border: 0px;" id="board"></iframe>
                 </td>
             </tr>
         </tbody>

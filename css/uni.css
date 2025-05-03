@@ -164,6 +164,7 @@ dialog::backdrop {
     border-radius: 5px;
     transition-timing-function: easeInOutQuart;
     transition-duration: 0.3s;
+    font-size: 0.9em;
 }
 .button_grey:hover{
     background-color: rgb(123, 123, 123);
@@ -171,6 +172,7 @@ dialog::backdrop {
     border-radius: 5px;
     transition-timing-function: easeInOutQuart;
     transition-duration: 0.3s;
+    font-size: 0.9em;
 }
 .button_grey:hover{
     background-color: rgb(212, 212, 212);
@@ -178,4 +180,47 @@ dialog::backdrop {
     border-radius: 5px;
     transition-timing-function: easeInOutQuart;
     transition-duration: 0.3s;
+    font-size: 0.9em;
+}
+.side-menu_button_none{
+    text-align: center;
+    background-color: rgb(185, 240, 255);
+    border-radius: 4px;
+    height: 6vh;
+    width: 98%;
+    left:0.5%;
+    position: relative;
+    letter-spacing: 0.1em;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.side-menu_button_active{
+    text-align: center;
+    background-color: rgb(62, 213, 255);
+    border-radius: 4px;
+    height: 6vh;
+    width: 98%;
+    left:0.5%;
+    position: relative;
+    letter-spacing: 0.1em;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+.side-menu_button_none:hover{
+    text-align: center;
+    background-color: rgb(153, 201, 214);
+    border-radius: 4px;
+    height: 6vh;
+    width: 98%;
+    left:0.5%;
+    position: relative;
+    letter-spacing: 0.1em;
+    transition-timing-function: easeInOutQuart;
+    transition-duration: 0.3s;
+}
+dt{
+    margin-bottom: 10px;
+}
+.fa-solid{
+    letter-spacing: 0.1em;
 }

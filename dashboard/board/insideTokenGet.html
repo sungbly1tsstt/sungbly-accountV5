@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - sungbly accountV5</title>
+    <link rel="stylesheet" type="text/css" href="../../css/uni.css">
+    <script src="../../js/jquery-3.7.1.min.js"></script>
+    <script src="../../js/UI.js"></script>
+    <script src="../../js/st cookie.js"></script>
+    <script src="../../js/getInsideToken.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+    <script>
+        var cftsToken;
+        // if using synchronous loading, will be called once the DOM is ready
+        turnstile.ready(function () {
+        turnstile.render("#cf-turnstile", {
+            sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+            callback: function (token) {
+                console.log(`Challenge Success ${token}`);
+                cftsToken = token;
+            },
+            theme: "light"
+        });
+        });
+        function onLoad(){
+            
+        }
+    </script>
+</head>
+<body onload="onLoad()">
+    <!-- <div class="top-bar">
+        <h1 class="top-bar-title">sungbly accountV5</h1>
+        <h1 class="top-bar-left" id="authID"></h1>
+    </div> -->
+    <div class="main" style="top:15%;">
+        <h1 class="title">Inside login - sungbly accountV5</h1>
+        <hr>
+        <div class="input" style="position: absolute;top:20vh;left:10%;" onclick="focusMove(document.getElementById('username'))">
+            <p class="input-title" style="position:relative;top:-20%">username:</p>
+            <input class="input-input" id="username" style="position:relative;top:-20%"></input>
+        </div>
+        <div class="input" style="position: absolute;top:35vh;left:10%;" onclick="focusMove(document.getElementById('password'))">
+            <p class="input-title" style="position:relative;top:-20%">password:</p>
+            <input class="input-input" id="password" type="password" style="position:relative;top:-20%"></input>
+        </div>
+        <div class="button" style="position:absolute;top:85%;left:43%" onclick="document.getElementById('warn').showModal()"><p style="position:relative;top:-35%">Login</p></div>
+        <div
+                class="cf-turnstile"
+                id="cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 68%;left: 30%"
+        ></div>
+        <dialog id="warn" style="height: 45%;width: 60%;">
+            <button onclick="document.getElementById('warn').close()" style="position:relative;right:-95%;">关闭</button>
+            <h1 style="position: static;text-align: center;color:red;">Warning</h1>
+            <p style="position: static;text-align: center;color: red;">请不要泄露你的cookie 当其他人获取到你的inside token后可以注销/盗取你的账户！</p>
+            <br>
+            <div class="button" style="position:absolute;top:85%;left:44%" onclick="login(document.getElementById('username').value,document.getElementById('password').value,cftsToken,getCookie('dashboard_uid'),getCookie('dashboard_token'))"><p style="position:relative;top:-35%">我已知晓</p></div>
+        </dialog>
+    </div>
+</body>
