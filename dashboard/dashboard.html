@@ -22,6 +22,7 @@
             console.warn("不要将cookie泄露给其他人！")
             console.warn("不要将cookie泄露给其他人！")
             console.warn("将cookie泄露给其他人将会导致账户被盗！")
+            setInterval(autoUpdate, 10000);
         }
         function logout(){
             clearCookie("dashboard_token");
@@ -49,6 +50,11 @@
                     $('.side-menu_button_active').removeClass('side-menu_button_active').addClass('side-menu_button_none');
                 }
             })
+        }
+        function autoUpdate(){
+            if("&nbsp;"+getCookie("dashboard_username") != document.getElementById("username").innerHTML){
+                location.reload();
+            }
         }
     </script>
 </head>
