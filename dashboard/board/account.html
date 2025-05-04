@@ -15,13 +15,14 @@
                     location.href = "insideTokenGet.html"
                 }
                 var username = getCookie("dashboard_username");
-                document.getElementById("username").value = username;
+                document.getElementById("username").innerHTML = username;
             }
         </script>
     </head>
     <body onload="onLoad()">
         <h1>Profile</h1>
         <hr style="width: 100%;">
-        <h3>username:&nbsp<input type="text" id="username"></h3>
+        <h3>username:&nbsp<span id="username"></h3>
+        <div class="button_grey" style="height: 30px;width:80px;position: absolute;top: 4%;right: 2.5%;"><span height="1rem" class=" fa-solid fa-pen" style="position: relative;top: 5px;left:9px" onclick="location.href='editProfile.html'">Edit</span></div>
     </body>
 </html>

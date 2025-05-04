@@ -43,6 +43,12 @@
                     $('#board').attr('src', href[index - 1]);
                 }
             });
+            $('#board').on('load', function() {
+                if($(this).attr('src') == 'board/default.html'){
+                    var activeButton = null;
+                    $('.side-menu_button_active').removeClass('side-menu_button_active').addClass('side-menu_button_none');
+                }
+            })
         }
     </script>
 </head>

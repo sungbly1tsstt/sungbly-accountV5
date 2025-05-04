@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: #f2f2f2;
+            }
+        </style>
+        <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="../../css/uni.css">
+        <script src="../../js/st cookie.js"></script>
+        <script src="../../js/packPOST.js"></script>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+        <script>
+            var cftsID;
+            function onLoad(){
+                if(getCookie("dashboard_insideToken") == ""){
+                    location.href = "insideTokenGet.html"
+                }
+                var username = getCookie("dashboard_username");
+                document.getElementById("username").value = username;
+            }
+            var cftsToken;
+            // if using synchronous loading, will be called once the DOM is ready
+            turnstile.ready(function () {
+            cftsID = turnstile.render("#cf-turnstile", {
+                sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+                callback: function (token) {
+                    console.log(`Challenge Success ${token}`);
+                    cftsToken = token;
+                },
+                theme: "light"
+            });
+            });
+            async function saveUsername(username,insideToken,cftsToken){
+                if(typeof cftsToken != 'undefined'){
+                    var name = await packPOST('https\:\/\/accountsv.838483.xyz/api/uidGetName',{uid:getCookie("dashboard_uid")})
+                    if(name.success && username != name.name){
+                        var post = {
+                            username: username,
+                            token: insideToken,
+                            cftsToken: cftsToken
+                        }
+                        var res = await packPOST('https\:\/\/accountsv.838483.xyz/api/usernameEdit',post)
+                        if(res.success){
+                            alert("修改成功")
+                        }else{
+                            switch(res.code){
+                                case 401:
+                                    alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                                    break;
+                                case 402:
+                                    alert("发送数据中有字符被拦截")
+                                    break;
+                                case 403:
+                                    alert("用户已存在！")
+                                    break;
+                                case 404:
+                                    alert("insideToken无效 请重新登录")
+                                    break;
+                                case 405:
+                                    alert("人机验证令牌无效 请刷新页面")
+                                    break;
+                            }
+                        }
+                        turnstile.reset(cftsID);
+                    }else{
+                        alert("用户名未修改")
+                    }
+                }else{
+                    alert("请等待人机验证完成")
+                }
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <h1>Profile</h1>
+        <hr style="width: 100%;">
+        <h3>username:&nbsp<input type="text" id="username"></h3>
+        <div class="button_grey" style="position: absolute;top: 15%;left: 24%;height: 30px;width:80px;" onclick="saveUsername(document.getElementById('username').value,getCookie('dashboard_insideToken'),cftsToken)"><span height="1rem" class="fa-solid fa-floppy-disk" style="position: relative;top: 6.3px;left:10px">SAVE</span></div>
+        <div class="button_grey" style="height: 30px;width:80px;position: absolute;top: 4%;right: 2.5%;background-color: red;"><span height="1rem" class=" fa-solid fa-xmark" style="position: relative;top: 6.3px;left:14px" onclick="location.href='account.html'">EXIT</span></div>
+        <div
+                class="cf-turnstile"
+                id="cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 2%;left: 30%"
+        ></div>
+        <dialog id="warn" style="height: 15%;width: 20%;">
+            <button onclick="document.getElementById('warn').close()" style="position:relative;right:-85%;">取消</button>
+            <h1 style="position: relative;top:-55%;text-align: center;color:red;">Warning</h1>
+            <p style="position: relative;top: -65%;text-align: center;color: red;">你确定放弃你的修改吗</p>
+            <br>
+            <div class="button" style="position:relative;top:-100%;left:55%;background-color: red;" onclick="location.href='account.html'"><p style="position:relative;top:10%">确定</p></div>
+            <div class="button" style="position:relative;top:-144%;left:15%;background-color: lightgreen;" onclick="document.getElementById('warn').close()"><p style="position:relative;top:10%">取消</p></div>
+        </dialog>
+    </body>
+</html>
