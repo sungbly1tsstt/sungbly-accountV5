@@ -1,6 +1,6 @@
 var accountInfo;
 var acceptDomain;
-async function login(account,password,authID,callback,cftsToken,vaildDomaindialog) {
+async function login(account,password,authID,callback,cftsToken,vaildDomaindialog,cftsID) {
     if(typeof cftsToken != "undefined"){
     const targetUrl = 'https://accountsv.838483.xyz/api/login';
     const requestBody = {
@@ -46,6 +46,7 @@ async function login(account,password,authID,callback,cftsToken,vaildDomaindialo
                         alert('用户名或密码错误')
                         break;
                 }
+                turnstile.reset(cftsID);
                 break;
             case 200:
                 if(accountInfo.accept_domain == acceptDomain){

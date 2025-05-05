@@ -128,6 +128,7 @@
                         var res = await packPOST('https\:\/\/accountsv.838483.xyz/api/passwordRecover',post)
                         if(res.success){
                             alert("密码重置成功");
+                            document.getElementById("passwordChange").close();
                         }else{
                             switch(res.code){
                                 case 401:

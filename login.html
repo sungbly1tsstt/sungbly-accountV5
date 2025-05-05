@@ -9,6 +9,7 @@
     <script src="js/login.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
     <script>
+        var cftsID;
         console.log('btoa("https://838483.xyz?")',btoa("https://838483.xyz?"))
         getInfo();
         var authID;
@@ -33,7 +34,7 @@
         }
         // if using synchronous loading, will be called once the DOM is ready
         turnstile.ready(function () {
-        turnstile.render("#cf-turnstile", {
+            cftsID = turnstile.render("#cf-turnstile", {
             sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
             callback: function (token) {
                 console.log(`Challenge Success ${token}`);
