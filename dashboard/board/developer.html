@@ -28,18 +28,29 @@
                 if(response.success){
                     document.getElementById("authidCount").innerHTML = response.count;
                     for(let i = 1; i <= response.count; i++){
-                        const id = document.createElement("option");
-                        const key = document.createElement("option");
-                        id.text = response[i+"id"];
-                        key.text = response[i+"key"];
-                        document.getElementById("authidSelectID").add(id);
-                        document.getElementById("authidSelectKey").add(key);
+                        // const id = document.createElement("td");
+                        // const key = document.createElement("td");
+                        // id.innerHTML = response[i + "id"];  // 修复此处：访问对象的 id 属性
+                        // key.innerHTML = response[i + "key"];  // 修复此处：访问对象的 key 属性
+                        // document.getElementById("authidSelectID").appendChild(id);  // 使用 appendChild 方法添加元素
+                        // document.getElementById("authidSelectKey").appendChild(key);  // 使用 appendChild 方法添加元素
+                        document.getElementById("authSelect").innerHTML += "<tr><td class='authidSelectID'>" + response[i + "id"] + "</td><td class='authidSelectKey'>" + response[i + "key"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素
                     }
                 }else{
                     alert("Failed to get AuthID count.");
                 }
             }
         </script>
+        <style>
+            .authidSelectID{
+                border-radius: 3px;
+                background-color: cadetblue;
+            }
+            .authidSelectKey{
+                border-radius: 3px;
+                background-color: chocolate;
+            }
+        </style>
     </head>
     <body onload="onLoad()">
         <h1>Developer Dashboard</h1>
@@ -48,15 +59,13 @@
         <hr style="width: 100%;">
         <h2>AuthID</h2>
         <h3>count: <span id="authidCount"></span></h3>
-        <table>
-            <tr>
-                <td>
-                    <select id="authidSelectID" size="3"></select>
+        <table id="authSelect">
+            <!-- <tr>
+                <td class="authidSelectID">
                 </td>
-                <td>
-                    <select id="authidSelectKey" size="3" disabled></select>
+                <td class="authidSelectKey">
                 </td>
-            </tr>
+            </tr> -->
         </table>
     </body>
 </html>
