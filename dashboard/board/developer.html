@@ -11,7 +11,9 @@
         <script src="../../js/st cookie.js"></script>
         <script src="../../js/jquery-3.7.1.min.js"></script>
         <script src="../../js/packPOST.js"></script>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
         <script>
+            var cftsID,cftsToken;
             function onLoad(){
                 if(getCookie("dashboard_insideToken") == ""){
                     location.href = "insideTokenGet.html"
@@ -40,6 +42,63 @@
                     alert("Failed to get AuthID count.");
                 }
             }
+            function addAuthIDShow(){
+                document.getElementById('addAuthID').showModal()
+                cftsID = turnstile.render("#cf-turnstile", {
+                    sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+                    callback: function (token) {
+                        console.log(`Challenge Success ${token}`);
+                        cftsToken = token;
+                    },
+                    theme: "light"
+                });
+            }
+            function addAuthID(){
+                var id = document.getElementById("id").value;
+                var key = document.getElementById("key").value;
+                var acd = document.getElementById("acd").value;
+                if(id == "" || key == "" || acd == ""){
+                    alert("请填写完整信息");
+                    return;
+                }
+                const pack = {
+                    token: getCookie("dashboard_insideToken"),
+                    id: id,
+                    key: key,
+                    acd: acd,
+                    cftsToken: cftsToken
+                }
+                const response = packPOST("https://accountsv.838483.xyz/api/addAuthID", pack);
+                if(response.success){
+                    alert("添加成功");
+                    document.getElementById('addAuthID').close();
+                    turnstile.remove(cftsID);
+                    location.reload();
+                }else{
+                    switch(response.code){
+                        case 401:
+                            alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                            break;
+                        case 402:
+                            alert("发送数据中有字符被拦截")
+                            break;
+                        case 403:
+                            alert("insideToken无效 请重新登录")
+                            break;
+                        case 404:
+                            alert("AuthID数量已达上限")
+                            break;
+                        case 405:
+                            alert("人机验证令牌无效 请刷新页面")
+                            break;
+                        case 500:
+                            alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                            break;
+                    }
+                    document.getElementById('addAuthID').close();
+                    turnstile.remove(cftsID);
+                }
+            }
         </script>
         <style>
             .authidSelectID{
@@ -58,7 +117,7 @@
         <h3>username:&nbsp<span id="username"></h3>
         <hr style="width: 100%;">
         <h2>AuthID</h2>
-        <h3>count: <span id="authidCount"></span></h3>
+        <h3>count: 3/<span id="authidCount"></span></h3>
         <table id="authSelect">
             <!-- <tr>
                 <td class="authidSelectID">
@@ -67,5 +126,37 @@
                 </td>
             </tr> -->
         </table>
+        <div class="button_grey" style="height: 30px;width:80px;" onclick="addAuthIDShow()"><span height="1rem" class="fa-solid fa-pen" style="position: relative;top: 6.3px;left:13px">add</span></div>
+        <dialog id="addAuthID" style="height: 40%;width: 50%;">
+            <button onclick="document.getElementById('addAuthID').close()" style="position:relative;right:-90%;">取消</button>
+            <h1 style="position: relative;top:-20%;text-align: center;">新建authID</h1>
+            <p style="position: relative;top: -25%;text-align: center;color: grey;">请选择一个强度高的密钥 并保存好</p>
+            <br>
+            <table style="position: relative;top: -35%;left:10%">
+                <tbody>
+                    <tr>
+                        <td>authID</td>
+                        <td><input type="password" id="id" placeholder="test"></td>
+                    </tr>
+                    <tr>
+                        <td>密钥</td>
+                        <td><input type="password" id="key" placeholder="1234"></td>
+                    </tr>
+                    <tr>
+                        <td>允许域名（包含一级域名 不带协议）</td>
+                        <td><input type="text" id="acd" placeholder="account.838483.xyz"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div
+                class="cf-turnstile"
+                id="cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 56%;left: 25%"
+        ></div>
+            <div class="button" style="position:relative;top:-10%;left:53%;" onclick=""><p style="position:relative;top:10%">确定</p></div>
+            <div class="button" style="position:relative;top: -26.5%;left:33%;" onclick="document.getElementById('addAuthID').close();turnstile.remove(cftsID);"><p style="position:relative;top:10%">取消</p></div>
+        </dialog>
     </body>
 </html>
