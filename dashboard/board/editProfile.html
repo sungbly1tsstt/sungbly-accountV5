@@ -36,6 +36,7 @@
             async function saveUsername(username,insideToken,cftsToken){
                 if(typeof cftsToken != 'undefined'){
                     var name = await packPOST('https\:\/\/accountsv.838483.xyz/api/uidGetName',{uid:getCookie("dashboard_uid")})
+                    clearCookie("dashboard_username");
                     setCookie("dashboard_username",name.name,90);
                     if(name.success && username != name.name){
                         var post = {

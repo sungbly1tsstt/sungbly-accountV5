@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: #f2f2f2;
+            }
+        </style>
+        <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="../../css/uni.css">
+        <script src="../../js/st cookie.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js"></script>
+        <script src="../../js/packPOST.js"></script>
+        <script>
+            function onLoad(){
+                if(getCookie("dashboard_insideToken") == ""){
+                    location.href = "insideTokenGet.html"
+                }
+                var username = getCookie("dashboard_username");
+                document.getElementById("username").innerHTML = username;
+                getAuthIDCount();
+            }
+            async function getAuthIDCount(){
+                const pack = {
+                    token: getCookie("dashboard_insideToken")
+                }
+                const response = await packPOST("https://accountsv.838483.xyz/api/listAuthID", pack);
+                if(response.success){
+                    document.getElementById("authidCount").innerHTML = response.count;
+                    for(let i = 1; i <= response.count; i++){
+                        const id = document.createElement("option");
+                        const key = document.createElement("option");
+                        id.text = response[i+"id"];
+                        key.text = response[i+"key"];
+                        document.getElementById("authidSelectID").add(id);
+                        document.getElementById("authidSelectKey").add(key);
+                    }
+                }else{
+                    alert("Failed to get AuthID count.");
+                }
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <h1>Developer Dashboard</h1>
+        <hr style="width: 100%;">
+        <h3>username:&nbsp<span id="username"></h3>
+        <hr style="width: 100%;">
+        <h2>AuthID</h2>
+        <h3>count: <span id="authidCount"></span></h3>
+        <table>
+            <tr>
+                <td>
+                    <select id="authidSelectID" size="3"></select>
+                </td>
+                <td>
+                    <select id="authidSelectKey" size="3" disabled></select>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
