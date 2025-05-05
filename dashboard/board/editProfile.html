@@ -90,7 +90,7 @@
                         clearCookie("dashboard_username");
                         clearCookie("dashboard_insideToken");
                         //？？？为什么不退出 为什么？look my eyes   tell me why?
-                        alert("token刷新成功 请重新登录");
+                        alert("token刷新成功 请重新登录并及时更改密码");
                         location.href = "../logout.html";
                     }else{
                         switch(res.code){
@@ -116,6 +116,48 @@
                     alert("请等待人机验证完成")
                 }
             }
+            async function passwordChange(oldPW,newPW,confirmPW,insideToken,cftsToken){
+                if(typeof cftsToken != 'undefined'){
+                    if(newPW == confirmPW){
+                        var post = {
+                            orginalPassword: oldPW,
+                            newPassword: newPW,
+                            token: insideToken,
+                            cftsToken: cftsToken
+                        }
+                        var res = await packPOST('https\:\/\/accountsv.838483.xyz/api/passwordRecover',post)
+                        if(res.success){
+                            alert("密码重置成功");
+                        }else{
+                            switch(res.code){
+                                case 401:
+                                    alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                                    break;
+                                case 402:
+                                    alert("发送数据中有字符被拦截")
+                                    break;
+                                case 403:
+                                    alert("insideToken无效 请重新登录")
+                                    break;
+                                case 404:
+                                    alert("人机验证令牌无效 请刷新页面")
+                                    break;
+                                case 405:
+                                    alert("原密码错误")
+                                    break;
+                                case 500:
+                                    alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                                    break;
+                            }
+                        }
+                        turnstile.reset(cftsID);
+                    }else{
+                        alert("两次输入的密码不一致")
+                    }
+                }else{
+                    alert("请等待人机验证完成")
+                }
+            }
         </script>
     </head>
     <body onload="onLoad()">
@@ -124,7 +166,9 @@
         <h3>username:&nbsp<input type="text" id="username"></h3>
         <div class="button_grey" style="position: absolute;top: 15%;left: 24%;height: 30px;width:80px;" onclick="saveUsername(document.getElementById('username').value,getCookie('dashboard_insideToken'),cftsToken)"><span height="1rem" class="fa-solid fa-floppy-disk" style="position: relative;top: 6.3px;left:10px">SAVE</span></div>
 
-        <div class="button_grey" style="position: absolute;top: 20%;left: 0.5%;height: 30px;width:125px;background-color: red;" onclick="document.getElementById('warn-refreshTkn').showModal()"><span height="1rem" class="fa-solid fa-triangle-exclamation" style="position: relative;top: 6.3px;left:10px">更新token</span></div>
+        <div class="button_grey" style="position: absolute;top: 20%;left: 0.5%;height: 30px;width:100px;" onclick="document.getElementById('passwordChange').showModal()"><span height="1rem" class="fa-solid fa-key" style="position: relative;top: 6.3px;left:10px">更改密码</span></div>
+
+        <div class="button_grey" style="position: absolute;top: 20%;left: 10%;height: 30px;width:125px;background-color: red;" onclick="document.getElementById('warn-refreshTkn').showModal()"><span height="1rem" class="fa-solid fa-triangle-exclamation" style="position: relative;top: 6.3px;left:10px">更新token</span></div>
         
         <div class="button_grey" style="height: 30px;width:80px;position: absolute;top: 4%;right: 2.5%;background-color: red;"><span height="1rem" class=" fa-solid fa-xmark" style="position: relative;top: 6.3px;left:14px" onclick="location.href='account.html'">EXIT</span></div>
         <div
@@ -150,6 +194,30 @@
             <br>
             <div class="button" style="position:relative;top:-100%;left:55%;background-color: red;" onclick="insideTokenRefresh(getCookie('dashboard_insideToken'),cftsToken)"><p style="position:relative;top:10%">确定</p></div>
             <div class="button" style="position:relative;top:-136%;left:15%;background-color: lightgreen;" onclick="document.getElementById('warn-refreshTkn').close()"><p style="position:relative;top:10%">取消</p></div>
+        </dialog>
+        <dialog id="passwordChange" style="height: 30%;width: 40%;">
+            <button onclick="document.getElementById('passwordChange').close()" style="position:relative;right:-90%;">取消</button>
+            <h1 style="position: relative;top:-25%;text-align: center;">更改密码</h1>
+            <p style="position: relative;top: -30%;text-align: center;color: grey;">这不会让您全平台下线 若您的账户被盗 请更改密码并刷新token</p>
+            <br>
+            <table style="position: relative;top: -40%;left:20%">
+                <tbody>
+                    <tr>
+                        <td>旧密码</td>
+                        <td><input type="password" id="oldPassword"></td>
+                    </tr>
+                    <tr>
+                        <td>新密码</td>
+                        <td><input type="password" id="newPassword"></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码</td>
+                        <td><input type="password" id="confirmPassword"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="button" style="position:relative;top:-38%;left:53%;" onclick=""><p style="position:relative;top:10%">确定</p></div>
+            <div class="button" style="position:relative;top: -60%;left:33%;" onclick="document.getElementById('passwordChange').close()"><p style="position:relative;top:10%">取消</p></div>
         </dialog>
     </body>
 </html>
