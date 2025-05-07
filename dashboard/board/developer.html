@@ -45,9 +45,9 @@
                         // key.innerHTML = response[i + "key"];  // 修复此处：访问对象的 key 属性
                         // document.getElementById("authidSelectID").appendChild(id);  // 使用 appendChild 方法添加元素
                         // document.getElementById("authidSelectKey").appendChild(key);  // 使用 appendChild 方法添加元素
-                        document.getElementById("authSelect").innerHTML += "<tr><td class='authidSelect'><input type='checkbox' id='"+i+"' class='SelectCheckbox'></td><td class='authidSelectID'>" + response[i + "id"] + "</td><td class='authidSelectKey'>" + response[i + "key"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素
-                        authIDlist.push(response[i + "id"]);
+                        document.getElementById("authSelect").innerHTML += "<tr><td class='authidSelect'><input type='checkbox' id='"+i+"' class='SelectCheckbox'></td><td class='authidSelectID'>" + response[i + "id"] + "</td><td class='authidSelectKey'>" + response[i + "key"] + "</td><td class='authidSelectACD'>" + response[i + "acd"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素
                     }
+                    authIDlist = response;
                     console.log('authIDlist',authIDlist)
                 }else{
                     alert("Failed to get AuthID count.");
@@ -55,7 +55,7 @@
             }
             function addAuthIDShow(){
                 document.getElementById('addAuthID').showModal()
-                cftsID = turnstile.render("#cf-turnstile", {
+                cftsID = turnstile.render("#addAuthID-cf-turnstile", {
                     sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
                     callback: function (token) {
                         console.log(`Challenge Success ${token}`);
@@ -63,6 +63,22 @@
                     },
                     theme: "light"
                 });
+            }
+            function editAuthIDShow(){
+                if(nowSelect){
+                    document.getElementById('editAuthID').showModal()
+                    cftsID = turnstile.render("#editAuthID-cf-turnstile", {
+                        sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+                        callback: function (token) {
+                            console.log(`Challenge Success ${token}`);
+                            cftsToken = token;
+                        },
+                        theme: "light"
+                    });
+                    document.getElementById("editID").value = authIDlist[nowSelect + "id"];
+                    document.getElementById("editKey").value = authIDlist[nowSelect + "key"];
+                    document.getElementById("editACD").value = authIDlist[nowSelect + "acd"];
+                }
             }
             function addAuthID(){
                 var id = document.getElementById("id").value;
@@ -118,7 +134,7 @@
             }
             async function removeAuthID(){
                 if(nowSelect != undefined){
-                    if(confirm("确定删除"+authIDlist[nowSelect-1]+"吗？")){
+                    if(confirm("确定删除"+authIDlist[nowSelect + "id"]+"吗？")){
                         const pack = {
                             token: getCookie("dashboard_insideToken"),
                             id: authIDlist[nowSelect-1],
@@ -153,6 +169,52 @@
                 }
             }
         }
+        async function editAuthID(){
+            var id = document.getElementById("id").value;
+            var key = document.getElementById("key").value;
+            var acd = document.getElementById("acd").value;
+            if(id == "" || key == "" || acd == ""){
+                alert("请填写完整信息");
+                return;
+            }
+            const pack = {
+                token: getCookie("dashboard_insideToken"),
+                id: id,
+                key: key,
+                acd: acd,
+                cftsToken: cftsToken
+            }
+            const response = packPOST("https://accountsv.838483.xyz/api/editAuthID", pack);
+            if(response.success){
+                alert("修改成功");
+                document.getElementById('editAuthID').close();
+                turnstile.remove(cftsID);
+                location.reload();
+            }else{
+                switch(response.code){
+                    case 401:
+                        alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                        break;
+                    case 402:
+                        alert("发送数据中有字符被拦截")
+                        break;
+                    case 403:
+                        alert("insideToken无效 请重新登录")
+                        break;
+                    case 404:
+                        alert("AuthID不存在")
+                        break;
+                    case 405:
+                        alert("人机验证令牌无效 请刷新页面")
+                        break;
+                    case 500:
+                        alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                        break;
+                }
+                document.getElementById('addAuthID').close();
+                turnstile.remove(cftsID);
+            }
+        }
         </script>
         <style>
             .authidSelectID{
@@ -166,6 +228,10 @@
             .authidSelect{
                 border-radius: 3px;
                 background-color: aquamarine;
+            }
+            .authidSelectACD{
+                border-radius: 3px;
+                background-color:crimson;
             }
         </style>
     </head>
@@ -188,7 +254,10 @@
             <tbody>
                 <tr>
                     <td>
-                        <div class="button_grey" style="height: 30px;width:80px;" onclick="addAuthIDShow()"><span height="1rem" class="fa-solid fa-pen" style="position: relative;top: 6.3px;left:13px">add</span></div>
+                        <div class="button_grey" style="height: 30px;width:80px;" onclick="addAuthIDShow()"><span height="1rem" class="fa-solid fa-plus" style="position: relative;top: 6.3px;left:13px">add</span></div>
+                    </td>
+                    <td>
+                        <div class="button_grey" style="height: 30px;width:85px;" onclick="editAuthIDShow()"><span height="1rem" class="fa-solid fa-pen" style="position: relative;top: 6.3px;left:13px">edit</span></div>
                     </td>
                     <td>
                         <div class="button_grey" style="height: 30px;width:110px;background-color: red;" onclick="removeAuthID()"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">remove</span></div>
@@ -197,7 +266,7 @@
             </tbody>
         </table>
         <dialog id="addAuthID" style="height: 290px;width: 50%;">
-            <div onclick="document.getElementById('addAuthID').close()" style="position:relative;right:-88%;top:-5%;z-index: 1;" class="button"><p style="position:relative;top:10%">取消</p></div>
+            <div onclick="document.getElementById('addAuthID').close();turnstile.remove(cftsID);    " style="position:relative;right:-88%;top:-5%;z-index: 1;" class="button"><p style="position:relative;top:10%">取消</p></div>
             <h1 style="position: relative;top:-20%;text-align: center;">新建authID</h1>
             <p style="position: relative;top: -25%;text-align: center;color: grey;">请选择一个强度高的密钥 并保存好</p>
             <br>
@@ -205,11 +274,11 @@
                 <tbody>
                     <tr>
                         <td>authID</td>
-                        <td><input type="password" id="id" placeholder="test"></td>
+                        <td><input type="text" id="id" placeholder="test"></td>
                     </tr>
                     <tr>
-                        <td>密钥</td>
-                        <td><input type="password" id="key" placeholder="1234"></td>
+                        <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
+                        <td><input type="text" id="key" placeholder="1234"></td>
                     </tr>
                     <tr>
                         <td>允许域名（包含一级域名 不带协议）</td>
@@ -219,13 +288,44 @@
             </table>
             <div
                 class="cf-turnstile"
-                id="cf-turnstile"
+                id="addAuthID-cf-turnstile"
                 data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
                 data-callback="javascriptCallback"
                 style="position: absolute;top: 61%;left: 25%"
         ></div>
             <div class="button" style="position:absolute;top:85%;left:53%;" onclick="addAuthID()"><p style="position:relative;top:-40%">确定</p></div>
             <div class="button" style="position:absolute;top:85%;left:33%;" onclick="document.getElementById('addAuthID').close();turnstile.remove(cftsID);"><p style="position:relative;top:-40%">取消</p></div>
+        </dialog>
+        <dialog id="editAuthID" style="height: 290px;width: 50%;">
+            <div onclick="document.getElementById('editAuthID').close();turnstile.remove(cftsID);" style="position:relative;right:-88%;top:-5%;z-index: 1;" class="button"><p style="position:relative;top:10%">取消</p></div>
+            <h1 style="position: relative;top:-20%;text-align: center;">编辑authID</h1>
+            <p style="position: relative;top: -25%;text-align: center;color: grey;">请选择一个强度高的密钥 并保存好</p>
+            <br>
+            <table style="position: relative;top: -35%;left:10%">
+                <tbody>
+                    <tr>
+                        <td>authID</td>
+                        <td><input type="text" id="editID" placeholder="test"></td>
+                    </tr>
+                    <tr>
+                        <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
+                        <td><input type="text" id="editKey" placeholder="1234"></td>
+                    </tr>
+                    <tr>
+                        <td>允许域名（包含一级域名 不带协议）</td>
+                        <td><input type="text" id="editACD" placeholder="account.838483.xyz"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div
+                class="cf-turnstile"
+                id="editAuthID-cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 61%;left: 25%"
+        ></div>
+            <div class="button" style="position:absolute;top:85%;left:53%;" onclick="editAuthID()"><p style="position:relative;top:-40%">确定</p></div>
+            <div class="button" style="position:absolute;top:85%;left:33%;" onclick="document.getElementById('editAuthID').close();turnstile.remove(cftsID);"><p style="position:relative;top:-40%">取消</p></div>
         </dialog>
     </body>
 </html>
