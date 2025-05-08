@@ -137,7 +137,7 @@
                     if(confirm("确定删除"+authIDlist[nowSelect + "id"]+"吗？")){
                         const pack = {
                             token: getCookie("dashboard_insideToken"),
-                            id: authIDlist[nowSelect-1],
+                            id: authIDlist[nowSelect + "id"],
                             cftsToken: cftsToken
                         }
                         const response = await packPOST("https://accountsv.838483.xyz/api/removeAuthID", pack);
@@ -147,7 +147,7 @@
                         }else{
                             switch(response.code){
                                 case 401:
-                                    alert("发送参数缺失 请联系sungbly accountV5网站管理员//都弃用了还能出来的也是个人物")
+                                    alert("发送参数缺失 请联系sungbly accountV5网站管理员")
                                     break;
                                 case 402:
                                     alert("发送数据中有字符被拦截")
@@ -281,7 +281,7 @@
                         <td><input type="text" id="key" placeholder="1234"></td>
                     </tr>
                     <tr>
-                        <td>允许域名（包含一级域名 不带协议）</td>
+                        <td>注册域名（包含一级域名 不带协议）</td>
                         <td><input type="text" id="acd" placeholder="account.838483.xyz"></td>
                     </tr>
                 </tbody>

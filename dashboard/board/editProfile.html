@@ -165,13 +165,17 @@
     <body onload="onLoad()">
         <h1>Profile</h1>
         <hr style="width: 100%;">
-        <h3>username:&nbsp<input type="text" id="username"></h3>
-        <div class="button_grey" style="position: absolute;top: 15%;left: 24%;height: 30px;width:80px;" onclick="saveUsername(document.getElementById('username').value,getCookie('dashboard_insideToken'),cftsToken)"><span height="1rem" class="fa-solid fa-floppy-disk" style="position: relative;top: 6.3px;left:10px">SAVE</span></div>
+        <div style="display:flex;gap: 5px;">
+            <h3 style="width: 24%;">username:&nbsp<input type="text" id="username"></h3>
+            <h3 style="width: 10%;;"><div class="button_grey" style="/*position: absolute;top: 15%;left: 24%;*/height: 30px;width:80px;" onclick="saveUsername(document.getElementById('username').value,getCookie('dashboard_insideToken'),cftsToken)"><p height="1rem" class="fa-solid fa-floppy-disk" style="position: relative;top: -9px;left:6px">SAVE</p></div></h3>
+        </div>
 
-        <div class="button_grey" style="position: absolute;top: 20%;left: 0.5%;height: 30px;width:100px;" onclick="document.getElementById('passwordChange').showModal()"><span height="1rem" class="fa-solid fa-key" style="position: relative;top: 6.3px;left:10px">更改密码</span></div>
+        <div style="display:flex;gap: 5px;">
+            <div class="button_grey" style="/*position: absolute;top: 20%;left: 0.5%;*/height: 30px;width:100px;" onclick="document.getElementById('passwordChange').showModal()"><span height="1rem" class="fa-solid fa-key" style="position: relative;top: 6.3px;left:10px">更改密码</span></div>
 
-        <div class="button_grey" style="position: absolute;top: 20%;left: 10%;height: 30px;width:125px;background-color: red;" onclick="document.getElementById('warn-refreshTkn').showModal()"><span height="1rem" class="fa-solid fa-triangle-exclamation" style="position: relative;top: 6.3px;left:10px">更新token</span></div>
-        
+            <div class="button_grey" style="/*position: absolute;top: 20%;left: 10%;*/height: 30px;width:125px;background-color: red;" onclick="document.getElementById('warn-refreshTkn').showModal()"><span height="1rem" class="fa-solid fa-triangle-exclamation" style="position: relative;top: 6.3px;left:10px">更新token</span></div>
+        </div>
+
         <div class="button_grey" style="height: 30px;width:80px;position: absolute;top: 4%;right: 2.5%;background-color: red;"><span height="1rem" class=" fa-solid fa-xmark" style="position: relative;top: 6.3px;left:14px" onclick="location.href='account.html'">EXIT</span></div>
         <div
                 class="cf-turnstile"
