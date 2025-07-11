@@ -48,12 +48,17 @@ async function InsideLogin(account,password,cftsToken,cftsToken2) {
             console.log('accountInfo.insideToken',accountInfo.insideToken)
             if(getCookie("accountList") == ""){
                 setCookie("accountList",loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                console.log('登录成功')
             }else{
-                var cookieTemp = getCookie("accountList")
-                clearCookie("accountList")
-                setCookie("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                if(getCookie("accountList").indexOf(","+account+",") == -1){
+                    var cookieTemp = getCookie("accountList")
+                    clearCookie("accountList")
+                    setCookie("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                    console.log('登录成功')
+                }else{
+                    alert("账户已登录")
+                }
             }
-            console.log('登录成功')
             location.reload();
             break;
     }
@@ -90,7 +95,6 @@ async function login(account,password,authID,cftsToken) {
         //     data: JSON.stringify(requestBody),
         //     contentType: 'application/json'})
     console.log('accountInfo',accountInfo)
-    console.log('acceptDomain',acceptDomain)
         switch(accountInfo.code){
             case 401:
                 switch(accountInfo.text.substring(0,10)){
