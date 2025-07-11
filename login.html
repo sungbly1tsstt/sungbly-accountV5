@@ -3,13 +3,15 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - sungbly accountV5</title>
+    <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/uni.css">
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/UI.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/st cookie.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
     <script>
-        var cftsID;
+        var cftsID,cftsID1;
         console.log('btoa("https://838483.xyz?")',btoa("https://838483.xyz?"))
         getInfo();
         var authID;
@@ -47,12 +49,39 @@
             if(typeof authID !== 'undefined'){
             document.getElementById('authID').innerHTML = 'authID:'+ authID;
             }
+            if(getCookie("accountList") != ""){
+            autoLoginShow()
+            loadList();
+        }
         }
         function invalidCallbackUrl(){
             var dialog = document.getElementById('invaild-callbackUrl');
             dialog.showModal();
         }
+        function autoLoginShow(){
+            cftsID1 = turnstile.render("#cf-turnstile-autoLogin", {
+            sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+            callback: function (token) {
+                console.log(`Challenge Success ${token}`);
+                cftsToken = token;
+            },
+            theme: "light"
+            });
+            document.getElementById('autoLogin').showModal()
+        }
+        function autoLoginClose(){
+            turnstile.remove(cftsID1);
+            document.getElementById('autoLogin').close()
+        }
     </script>
+    <style>
+        .listDiv{
+            height: 60%;
+            width: 65%;
+            position: relative;
+            left:18%;
+        }
+    </style>
 </head>
 <body onload="onLoad()">
     <div class="top-bar">
@@ -88,6 +117,25 @@
             <br>
             <div class="button" style="position:absolute;top:85%;left:44%" onclick="verifyCallbackWarning(document.getElementById('callbackUrl').value)"><p style="position:relative;top:-35%">验证</p></div>
         </dialog>
+        <dialog id="autoLogin" style="height: 60%;width: 60%;">
+            <button onclick="autoLoginClose()" style="position:absolute;right:1.5%;"><i class="fa-solid fa-xmark"></i></button>
+            <h1 style="position: static;text-align: center;">免密登录</h1>
+            <div class="listDiv">
+                <table>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div
+                class="cf-turnstile"
+                id="cf-turnstile-autoLogin"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 83%;left: 34%"
+        ></div>
+        </dialog>
         <a onclick="location.href='register.html?callback='+btoa(location.href)" style="position: absolute;top:94%;left:2%;color:blue;text-decoration: underline;">Register</a>
+        <a onclick="autoLoginShow()" style="position: absolute;top:94%;left:10%;color:blue;text-decoration: underline;">免密登陆</a>
     </div>
 </body>

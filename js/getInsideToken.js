@@ -46,6 +46,13 @@ async function login(account,password,cftsToken,uid,token) {
         case 200:
             console.log('accountInfo.insideToken',accountInfo.insideToken)
             setCookie("dashboard_insideToken", accountInfo.insideToken, 90);
+            if(getCookie("accountList") == ""){
+                setCookie("accountList",uid + "," + account + "," + accountInfo.insideToken,512)
+            }else{
+                var cookieTemp = getCookie("accountList")
+                clearCookie("accountList")
+                setCookie("accountList",cookieTemp + ";" + uid + "," + account + "," + accountInfo.insideToken,512)
+            }
             console.log('登录成功')
             location.href = 'default.html'
             break;

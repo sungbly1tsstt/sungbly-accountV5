@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: #f2f2f2;
+            }
+            .account{
+                border-radius: 3px;
+                background-color: skyblue;
+                height: 30px;
+            }
+        </style>
+        <link rel="stylesheet" href="//st.838483.xyz/stcdn/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="../../css/uni.css">
+        <script src="../../js/st cookie.js"></script>
+        <script src="../../js/packPOST.js"></script>
+        <script src="../../js/accountAutoLoginManage.js"></script>
+        <script>
+            function onLoad(){
+                if(getCookie("dashboard_insideToken") == ""){
+                    location.href = "insideTokenGet.html"
+                }
+                loadList();
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <h1>account auto login manage</h1>
+        <hr style="width: 100%;">
+        <div style="display: flex;gap: 10px;">
+            <div class="button_grey" style="height: 30px;width:80px;" onclick="document.getElementById('login').showModal()"><span height="1rem" class="fa-solid fa-plus" style="position: relative;top: 6.3px;left:13px">add</span></div>
+            <div class="button_grey" style="height: 30px;width:115px;" onclick="location.reload()"><span height="1rem" class="fa-solid fa-arrows-rotate" style="position: relative;top: 6.3px;left:13px">refresh</span></div>
+        </div>
+        <br>
+        <table>
+            <tbody id="accountList">
+                <tr><td><p>加载中</p></td></tr>
+            </tbody>
+        </table>
+        <dialog class="dialog" style="height:80%;width:90%" id="login">
+            <iframe src="mutiInsideTokenLogin.html" style="height: 100%;width: 100%;border: 0;"></iframe>
+            <button onclick="document.getElementById('login').close()" style="position:absolute;right:1.5%;"><i class="fa-solid fa-xmark"></i></button>
+        </dialog>
+    </body>
+</html>
