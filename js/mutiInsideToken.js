@@ -56,11 +56,12 @@ async function InsideLogin(account,password,cftsToken,cftsToken2) {
                     clearCookie("accountList")
                     setCookie("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
                     console.log('登录成功')
+                    alert("登录成功")
                 }else{
                     alert("账户已登录")
                 }
             }
-            location.reload();
+            alert("您可以手动关闭该窗口")
             break;
     }
     }else{
