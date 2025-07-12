@@ -1,6 +1,7 @@
 var accountInfo;
 async function InsideLogin(account,password,cftsToken,cftsToken2) {
-    var loginInfo = await login(account,password,"sungbly_account_dashboard",cftsToken,"account.838483.xyz").split(",");
+    var loginInfoTemp = await login(account,password,"sungbly_account_dashboard",cftsToken,"account.838483.xyz");
+    var loginInfo = loginInfoTemp.split(",");
     if(typeof cftsToken != "undefined"){
     const targetUrl = 'https://accountsv.838483.xyz/api/getInsideToken';
     const requestBody = {
