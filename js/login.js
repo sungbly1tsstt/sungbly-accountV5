@@ -152,7 +152,7 @@ var list = new Array();
 list = getCookie("accountList").split(";")
 function loadList(){
     var accountListTemp = "";
-    for(var i;i < list.length;i++){
+    for(let i = 0;i < list.length;i++){
         var account = list[i].split(",")
         accountListTemp += '<tr><td class="account">'+ account[1] +'</td><td><div class="button_grey" style="height: 30px;width:65px;" onclick="loginAccount(`'+ account[2] +'`,authID,callback,cftsToken,document.getElementById(`invaild-callbackUrl`),cftsID1)"><span height="1rem" class="fa fa-exchange" style="position: relative;top: 6.3px;left:13px;">切换</span></div></td></tr>'
     }
