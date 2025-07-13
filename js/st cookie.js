@@ -5,6 +5,12 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; path=/dashboard/;  " + expires;
 }
+function setCookieRoot(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; path=/;  " + expires;
+}
 //获取cookie
 function getCookie(cname) {
     var name = cname + "=";

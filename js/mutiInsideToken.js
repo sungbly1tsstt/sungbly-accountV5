@@ -48,20 +48,21 @@ async function InsideLogin(account,password,cftsToken,cftsToken2) {
         case 200:
             console.log('accountInfo.insideToken',accountInfo.insideToken)
             if(getCookie("accountList") == ""){
-                setCookie("accountList",loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                setCookieRoot("accountList",loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
                 console.log('登录成功')
             }else{
                 if(getCookie("accountList").indexOf(","+account+",") == -1){
                     var cookieTemp = getCookie("accountList")
                     clearCookie("accountList")
-                    setCookie("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                    setCookieRoot("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
                     console.log('登录成功')
                     alert("登录成功")
                 }else{
                     alert("账户已登录")
                 }
             }
-            alert("您可以手动关闭该窗口")
+            document.getElementById('warn').close()
+            alert("请手动关闭登录窗口")
             break;
     }
     }else{
