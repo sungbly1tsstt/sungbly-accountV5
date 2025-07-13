@@ -166,7 +166,7 @@ async function loginAccount(insideToken,authID,callback,cftsToken,vaildDomaindia
         const requestBody = {
             insideToken: insideToken,
             authID: authID,
-            key: cftsToken
+            cftsToken: cftsToken
         };
         const customHeaders = {
             'Content-Type': 'application/json'
