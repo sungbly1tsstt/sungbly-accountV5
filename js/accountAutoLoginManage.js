@@ -44,10 +44,12 @@ async function removeAccount(uid){
 
 function loadList(){
     var accountListTemp = "";
-    for(let i = 0;i < list.length;i++){
-        var account = list[i].split(",")
-        accountListTemp += '<tr><td class="account">'+ account[1] +'</td><td><div class="button_grey" style="height: 30px;width:65px;" onclick="changeAccount(`'+ account[0] +'`)"><span height="1rem" class="fa fa-exchange" style="position: relative;top: 6.3px;left:13px;">切换</span></div></td><td><div class="button_grey" style="height: 30px;width:65px;background-color: red;" onclick="changeAccount(`'+ account[0] +'`)"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">删除</span></div></td></tr>'
+    if(list[0] != ""){
+        for(let i = 0;i < list.length;i++){
+            var account = list[i].split(",")
+            accountListTemp += '<tr><td class="account">'+ account[1] +'</td><td><div class="button_grey" style="height: 30px;width:65px;" onclick="changeAccount(`'+ account[0] +'`)"><span height="1rem" class="fa fa-exchange" style="position: relative;top: 6.3px;left:13px;">切换</span></div></td><td><div class="button_grey" style="height: 30px;width:65px;background-color: red;" onclick="changeAccount(`'+ account[0] +'`)"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">删除</span></div></td></tr>'
+        }
+        document.getElementById("accountList").innerHTML = accountListTemp;
     }
-    document.getElementById("accountList").innerHTML = accountListTemp;
     console.log("load success")
 }

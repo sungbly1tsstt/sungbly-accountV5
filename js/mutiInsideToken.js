@@ -53,7 +53,6 @@ async function InsideLogin(account,password,cftsToken,cftsToken2) {
             }else{
                 if(getCookie("accountList").indexOf(","+account+",") == -1){
                     var cookieTemp = getCookie("accountList")
-                    clearCookie("accountList")
                     setCookieRoot("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
                     console.log('登录成功')
                     alert("登录成功")

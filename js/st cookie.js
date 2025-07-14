@@ -26,3 +26,6 @@ function getCookie(cname) {
 function clearCookie(name) { 
     setCookie(name, "", -1); 
 } 
+function clearCookieRoot(name) { 
+    setCookieRoot(name, "", -1); 
+} 
