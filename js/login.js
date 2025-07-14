@@ -149,7 +149,7 @@ async function autoLogin(account,password,authID,callback,cftsToken,vaildDomaind
     }
 }
 var list = new Array();
-list = getCookie("accountList").split(";")
+list = getCookie("accountList").split("\\")
 function loadList(){
     var accountListTemp = "";
     for(let i = 0;i < list.length;i++){

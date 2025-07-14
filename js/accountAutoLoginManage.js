@@ -1,5 +1,5 @@
 var list = new Array();
-list = getCookie("accountList").split(";")
+list = getCookie("accountList").split("\\")
 
 async function changeAccount(uid){
     var success = false;
@@ -33,10 +33,9 @@ async function removeAccount(uid){
             if(accountList == ""){
                 accountList = list[i]
             }else{
-                accountList += ";" + list[i] 
+                accountList += "\\" + list[i] 
             }
         }
-        clearCookie("accountList")
         setCookie("accountList",accountList,512)
         location.reload()
     }
