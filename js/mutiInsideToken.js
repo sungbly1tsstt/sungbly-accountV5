@@ -52,8 +52,8 @@ async function InsideLogin(account,password,cftsToken,cftsToken2) {
                 console.log('登录成功')
             }else{
                 if(getCookie("accountList").indexOf(","+account+",") == -1){
-                    var cookieTemp = getCookie("accountList")
-                    setCookieRoot("accountList",cookieTemp + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken,512)
+                    var cookieTemp = getCookie("accountList") + ";" + loginInfo[1] + "," + account + "," + accountInfo.insideToken
+                    setCookieRoot("accountList",cookieTemp,512)//逆天之将cookie保存到变量后再设置cookie+新内容会设置成变量内容舍去新内容
                     console.log('登录成功')
                     alert("登录成功")
                 }else{
