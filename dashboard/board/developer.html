@@ -316,8 +316,8 @@
                 }
             }
             function addTag(){
-                var id = document.getElementById("id").value;
-                var key = document.getElementById("key").value;
+                var id = document.getElementById("name").value;
+                var key = document.getElementById("key1").value;
                 if(id == "" || key == ""){
                     alert("请填写完整信息");
                     return;
@@ -561,11 +561,11 @@
                 <tbody>
                     <tr>
                         <td>tag名称(创建后不可更改)</td>
-                        <td><input type="text" id="id" placeholder="test"></td>
+                        <td><input type="text" id="name" placeholder="test"></td>
                     </tr>
                     <tr>
                         <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
-                        <td><input type="text" id="key" placeholder="1234"></td>
+                        <td><input type="text" id="key1" placeholder="1234"></td>
                     </tr>
                 </tbody>
             </table>
