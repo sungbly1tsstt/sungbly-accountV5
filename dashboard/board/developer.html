@@ -311,8 +311,8 @@
                         },
                         theme: "light"
                     });
-                    document.getElementById("editName").value = taglist[nowSelect + "id"];
-                    document.getElementById("editKey1").value = taglist[nowSelect + "key"];
+                    document.getElementById("editID").value = taglist[nowSelect + "name"];
+                    document.getElementById("editKey").value = taglist[nowSelect + "key"];
                 }
             }
             function addTag(){
@@ -324,7 +324,7 @@
                 }
                 const pack = {
                     token: getCookie("dashboard_insideToken"),
-                    name: name,
+                    name: id,
                     key: key,
                     cftsToken: cftsToken
                 }
