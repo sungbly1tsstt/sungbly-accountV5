@@ -14,8 +14,8 @@
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
         <script>
             var cftsID,cftsToken;
-            var nowSelect;
-            var authIDlist = [];
+            var nowSelect,nowSelect2;
+            var authIDlist = [],tagList = [];
             function onLoad(){
                 if(getCookie("dashboard_insideToken") == ""){
                     location.href = "insideTokenGet.html"
@@ -23,11 +23,19 @@
                 var username = getCookie("dashboard_username");
                 document.getElementById("username").innerHTML = username;
                 getAuthIDCount();
+                getTagCount();
                 $('#authSelect').on('click', '.SelectCheckbox', function() {
                     console.log("select")
                     $('.SelectCheckbox').prop('checked', false); // 先取消所有复选框的选中状态
                     $(this).prop('checked', true); // 然后选中当前点击的复选框
                     nowSelect = $(this).attr("id");
+                    console.log('nowSelect',nowSelect)
+                });
+                $('#tagSelect').on('click', '.SelectCheckbox', function() {
+                    console.log("select")
+                    $('.SelectCheckbox').prop('checked', false); // 先取消所有复选框的选中状态
+                    $(this).prop('checked', true); // 然后选中当前点击的复选框
+                    nowSelect2 = $(this).attr("id");
                     console.log('nowSelect',nowSelect)
                 });
             }
@@ -215,6 +223,185 @@
                 turnstile.remove(cftsID);
             }
         }
+        async function editTag(){
+            var name = document.getElementById("editname").value;
+            var key = document.getElementById("editKey1").value;
+            if(name == "" || key == ""){
+                alert("请填写完整信息");
+                return;
+            }
+            const pack = {
+                token: getCookie("dashboard_insideToken"),
+                name: name,
+                key: key,
+                cftsToken: cftsToken
+            }
+            const response = packPOST("https://accountsv.838483.xyz/api/editTag", pack);
+            if(response.success){
+                alert("修改成功");
+                document.getElementById('editTag').close();
+                turnstile.remove(cftsID);
+                location.reload();
+            }else{
+                switch(response.code){
+                    case 401:
+                        alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                        break;
+                    case 402:
+                        alert("发送数据中有字符被拦截")
+                        break;
+                    case 403:
+                        alert("insideToken无效 请重新登录")
+                        break;
+                    case 404:
+                        alert("Tag不存在")
+                        break;
+                    case 405:
+                        alert("人机验证令牌无效 请刷新页面")
+                        break;
+                    case 500:
+                        alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                        break;
+                }
+                document.getElementById('editTag').close();
+                turnstile.remove(cftsID);
+            }
+        }
+        async function getTagCount(){
+                const pack = {
+                    token: getCookie("dashboard_insideToken")
+                }
+                const response = await packPOST("https://accountsv.838483.xyz/api/listTag", pack);
+                if(response.success){
+                    document.getElementById("tagCount").innerHTML = response.count;
+                    for(let i = 1; i <= response.count; i++){
+                        // const id = document.createElement("td");
+                        // const key = document.createElement("td");
+                        // id.innerHTML = response[i + "id"];  // 修复此处：访问对象的 id 属性
+                        // key.innerHTML = response[i + "key"];  // 修复此处：访问对象的 key 属性
+                        // document.getElementById("authidSelectID").appendChild(id);  // 使用 appendChild 方法添加元素
+                        // document.getElementById("authidSelectKey").appendChild(key);  // 使用 appendChild 方法添加元素
+                        document.getElementById("tagSelect").innerHTML += "<tr><td class='tagSelect'><input type='checkbox' id='"+i+"' class='SelectCheckbox'></td><td class='tagSelectID'>" + response[i + "name"] + "</td><td class='tagSelectKey'>" + response[i + "key"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素，
+                    }
+                    authIDlist = response;
+                    console.log('taglist',authIDlist)
+                }else{
+                    alert("Failed to get tag count.");
+                }
+            }
+            function addTagShow(){
+                document.getElementById('addTag').showModal()
+                cftsID = turnstile.render("#addTag-cf-turnstile", {
+                    sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+                    callback: function (token) {
+                        console.log(`Challenge Success ${token}`);
+                        cftsToken = token;
+                    },
+                    theme: "light"
+                });
+            }
+            function editTagShow(){
+                if(nowSelect){
+                    document.getElementById('editTag').showModal()
+                    cftsID = turnstile.render("#editTag-cf-turnstile", {
+                        sitekey: "0x4AAAAAABDhxO6vEa9QWNzO",
+                        callback: function (token) {
+                            console.log(`Challenge Success ${token}`);
+                            cftsToken = token;
+                        },
+                        theme: "light"
+                    });
+                    document.getElementById("editName").value = taglist[nowSelect + "id"];
+                    document.getElementById("editKey1").value = taglist[nowSelect + "key"];
+                }
+            }
+            function addTag(){
+                var id = document.getElementById("id").value;
+                var key = document.getElementById("key").value;
+                if(id == "" || key == ""){
+                    alert("请填写完整信息");
+                    return;
+                }
+                const pack = {
+                    token: getCookie("dashboard_insideToken"),
+                    name: name,
+                    key: key,
+                    cftsToken: cftsToken
+                }
+                const response = packPOST("https://accountsv.838483.xyz/api/addTagList", pack);
+                if(response.success){
+                    alert("添加成功");
+                    document.getElementById('addAuthID').close();
+                    turnstile.remove(cftsID);
+                    location.reload();
+                }else{
+                    switch(response.code){
+                        case 401:
+                            alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                            break;
+                        case 402:
+                            alert("发送数据中有字符被拦截")
+                            break;
+                        case 403:
+                            alert("insideToken无效 请重新登录")
+                            break;
+                        case 404:
+                            alert("tag数量已达上限")
+                            break;
+                        case 405:
+                            alert("人机验证令牌无效 请刷新页面")
+                            break;
+                        case 406:
+                            alert("数据库错误")
+                            break;
+                        case 407:
+                            alert("tag已存在")
+                            break;
+                        case 500:
+                            alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                            break;
+                    }
+                    document.getElementById('addTag').close();
+                    turnstile.remove(cftsID);
+                }
+            }
+            async function removeTag(){
+                if(nowSelect != undefined){
+                    if(confirm("确定删除"+tagList[nowSelect2 + "name"]+"吗？")){
+                        const pack = {
+                            token: getCookie("dashboard_insideToken"),
+                            name: tagList[nowSelect2 + "name"],
+                            cftsToken: cftsToken
+                        }
+                        const response = await packPOST("https://accountsv.838483.xyz/api/removeTag", pack);
+                        if(response.success){
+                            alert("删除成功");
+                            location.reload();
+                        }else{
+                            switch(response.code){
+                                case 401:
+                                    alert("发送参数缺失 请联系sungbly accountV5网站管理员")
+                                    break;
+                                case 402:
+                                    alert("发送数据中有字符被拦截")
+                                    break;
+                                case 403:
+                                    alert("人机验证令牌无效 请刷新页面")
+                                    break;
+                                case 404:
+                                    alert("insideToken无效 请重新登录")
+                                    break;
+                                case 405:
+                                    alert("tag不存在")
+                                    break;
+                                case 500:
+                                    alert("服务器内部错误 请联系sungbly accountV5网站管理员")
+                                    break;
+                            }
+                    }
+                }
+            }
+        }
         </script>
         <style>
             .authidSelectID{
@@ -233,6 +420,18 @@
                 border-radius: 3px;
                 background-color:crimson;
             }
+            .tagSelectID{
+                border-radius: 3px;
+                background-color: cadetblue;
+            }
+            .tagSelectKey{
+                border-radius: 3px;
+                background-color: chocolate;
+            }
+            .tagSelect{
+                border-radius: 3px;
+                background-color: aquamarine;
+            }
         </style>
     </head>
     <body onload="onLoad()">
@@ -241,7 +440,7 @@
         <h3>username:&nbsp<span id="username"></h3>
         <hr style="width: 100%;">
         <h2>AuthID</h2>
-        <h3>count: 3/<span id="authidCount"></span></h3>
+        <h3>count: <span id="authidCount">/3</span></h3>
         <table id="authSelect">
             <!-- <tr>
                 <td class="authidSelectID">
@@ -326,6 +525,86 @@
         ></div>
             <div class="button" style="position:absolute;top:85%;left:53%;" onclick="editAuthID()"><p style="position:relative;top:-40%">确定</p></div>
             <div class="button" style="position:absolute;top:85%;left:33%;" onclick="document.getElementById('editAuthID').close();turnstile.remove(cftsID);"><p style="position:relative;top:-40%">取消</p></div>
+        </dialog>
+        <hr style="width: 100%;">
+        <h2>Tag</h2>
+        <h3>count: <span id="tagCount">/9</span></h3>
+        <table id="tagSelect">
+            <!-- <tr>
+                <td class="authidSelectID">
+                </td>
+                <td class="authidSelectKey">
+                </td>
+            </tr> -->
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="button_grey" style="height: 30px;width:80px;" onclick="addTagShow()"><span height="1rem" class="fa-solid fa-plus" style="position: relative;top: 6.3px;left:13px">add</span></div>
+                    </td>
+                    <td>
+                        <div class="button_grey" style="height: 30px;width:85px;" onclick="editTagShow()"><span height="1rem" class="fa-solid fa-pen" style="position: relative;top: 6.3px;left:13px">edit</span></div>
+                    </td>
+                    <td>
+                        <div class="button_grey" style="height: 30px;width:110px;background-color: red;" onclick="removeTagID()"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">remove</span></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <dialog id="addTag" style="height: 290px;width: 50%;">
+            <div onclick="document.getElementById('addTag').close();turnstile.remove(cftsID);    " style="position:relative;right:-88%;top:-5%;z-index: 1;" class="button"><p style="position:relative;top:10%">取消</p></div>
+            <h1 style="position: relative;top:-20%;text-align: center;">新建tag</h1>
+            <p style="position: relative;top: -25%;text-align: center;color: grey;">请选择一个强度高的密钥 并保存好</p>
+            <br>
+            <table style="position: relative;top: -30%;left:10%">
+                <tbody>
+                    <tr>
+                        <td>tag名称(创建后不可更改)</td>
+                        <td><input type="text" id="id" placeholder="test"></td>
+                    </tr>
+                    <tr>
+                        <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
+                        <td><input type="text" id="key" placeholder="1234"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div
+                class="cf-turnstile"
+                id="addTag-cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 61%;left: 25%"
+        ></div>
+            <div class="button" style="position:absolute;top:85%;left:53%;" onclick="addTag()"><p style="position:relative;top:-40%">确定</p></div>
+            <div class="button" style="position:absolute;top:85%;left:33%;" onclick="document.getElementById('addTag').close();turnstile.remove(cftsID);"><p style="position:relative;top:-40%">取消</p></div>
+        </dialog>
+        <dialog id="editTag" style="height: 290px;width: 50%;">
+            <div onclick="document.getElementById('editTag').close();turnstile.remove(cftsID);" style="position:relative;right:-88%;top:-5%;z-index: 1;" class="button"><p style="position:relative;top:10%">取消</p></div>
+            <h1 style="position: relative;top:-20%;text-align: center;">编辑tag</h1>
+            <p style="position: relative;top: -25%;text-align: center;color: grey;">请选择一个强度高的密钥 并保存好</p>
+            <br>
+            <table style="position: relative;top: -35%;left:10%">
+                <tbody>
+                    <tr>
+                        <td>authID</td>
+                        <td><input type="text" id="editID" placeholder="test" disabled></td>
+                    </tr>
+                    <tr>
+                        <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
+                        <td><input type="text" id="editKey" placeholder="1234"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div
+                class="cf-turnstile"
+                id="editTag-cf-turnstile"
+                data-sitekey="0x4AAAAAABDhxO6vEa9QWNzO"
+                data-callback="javascriptCallback"
+                style="position: absolute;top: 61%;left: 25%"
+        ></div>
+            <div class="button" style="position:absolute;top:85%;left:53%;" onclick="editTag()"><p style="position:relative;top:-40%">确定</p></div>
+            <div class="button" style="position:absolute;top:85%;left:33%;" onclick="document.getElementById('editTag').close();turnstile.remove(cftsID);"><p style="position:relative;top:-40%">取消</p></div>
         </dialog>
     </body>
 </html>
