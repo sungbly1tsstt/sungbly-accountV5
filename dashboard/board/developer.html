@@ -36,7 +36,7 @@
                     $('.SelectCheckbox').prop('checked', false); // 先取消所有复选框的选中状态
                     $(this).prop('checked', true); // 然后选中当前点击的复选框
                     nowSelect2 = $(this).attr("id");
-                    console.log('nowSelect',nowSelect)
+                    console.log('nowSelect2',nowSelect2)
                 });
             }
             async function getAuthIDCount(){
@@ -311,8 +311,8 @@
                         },
                         theme: "light"
                     });
-                    document.getElementById("editname").value = tagList[nowSelect + "name"];
-                    document.getElementById("editKey1").value = tagList[nowSelect + "key"];
+                    document.getElementById("editname").value = tagList[nowSelect2 + "name"];
+                    document.getElementById("editKey1").value = tagList[nowSelect2 + "key"];
                 }
             }
             async function addTag(){
