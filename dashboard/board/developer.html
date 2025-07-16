@@ -284,7 +284,7 @@
                         document.getElementById("tagSelect").innerHTML += "<tr><td class='tagSelect'><input type='checkbox' id='"+i+"' class='SelectCheckbox'></td><td class='tagSelectID'>" + response[i + "name"] + "</td><td class='tagSelectKey'>" + response[i + "key"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素，
                     }
                     authIDlist = response;
-                    console.log('taglist',authIDlist)
+                    console.log('tagList',tagList)
                 }else{
                     alert("Failed to get tag count.");
                 }
@@ -311,8 +311,8 @@
                         },
                         theme: "light"
                     });
-                    document.getElementById("editname").value = taglist[nowSelect + "name"];
-                    document.getElementById("editKey1").value = taglist[nowSelect + "key"];
+                    document.getElementById("editname").value = tagList[nowSelect + "name"];
+                    document.getElementById("editKey1").value = tagList[nowSelect + "key"];
                 }
             }
             async function addTag(){
@@ -547,7 +547,7 @@
                         <div class="button_grey" style="height: 30px;width:85px;" onclick="editTagShow()"><span height="1rem" class="fa-solid fa-pen" style="position: relative;top: 6.3px;left:13px">edit</span></div>
                     </td>
                     <td>
-                        <div class="button_grey" style="height: 30px;width:110px;background-color: red;" onclick="removeTagID()"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">remove</span></div>
+                        <div class="button_grey" style="height: 30px;width:110px;background-color: red;" onclick="removeTag()"><span height="1rem" class="fa-solid fa-trash" style="position: relative;top: 6.3px;left:13px;">remove</span></div>
                     </td>
                 </tr>
             </tbody>
