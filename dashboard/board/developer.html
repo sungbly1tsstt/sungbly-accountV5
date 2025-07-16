@@ -88,7 +88,7 @@
                     document.getElementById("editACD").value = authIDlist[nowSelect + "acd"];
                 }
             }
-            function addAuthID(){
+            async function addAuthID(){
                 var id = document.getElementById("id").value;
                 var key = document.getElementById("key").value;
                 var acd = document.getElementById("acd").value;
@@ -103,7 +103,7 @@
                     acd: acd,
                     cftsToken: cftsToken
                 }
-                const response = packPOST("https://accountsv.838483.xyz/api/addAuthID", pack);
+                const response = await packPOST("https://accountsv.838483.xyz/api/addAuthID", pack);
                 if(response.success){
                     alert("添加成功");
                     document.getElementById('addAuthID').close();
@@ -192,7 +192,7 @@
                 acd: acd,
                 cftsToken: cftsToken
             }
-            const response = packPOST("https://accountsv.838483.xyz/api/editAuthID", pack);
+            const response = await packPOST("https://accountsv.838483.xyz/api/editAuthID", pack);
             if(response.success){
                 alert("修改成功");
                 document.getElementById('editAuthID').close();
@@ -236,7 +236,7 @@
                 key: key,
                 cftsToken: cftsToken
             }
-            const response = packPOST("https://accountsv.838483.xyz/api/editTag", pack);
+            const response = await packPOST("https://accountsv.838483.xyz/api/editTag", pack);
             if(response.success){
                 alert("修改成功");
                 document.getElementById('editTag').close();
@@ -311,11 +311,11 @@
                         },
                         theme: "light"
                     });
-                    document.getElementById("editID").value = taglist[nowSelect + "name"];
-                    document.getElementById("editKey").value = taglist[nowSelect + "key"];
+                    document.getElementById("editname").value = taglist[nowSelect + "name"];
+                    document.getElementById("editKey1").value = taglist[nowSelect + "key"];
                 }
             }
-            function addTag(){
+            async function addTag(){
                 var id = document.getElementById("name").value;
                 var key = document.getElementById("key1").value;
                 if(id == "" || key == ""){
@@ -328,7 +328,7 @@
                     key: key,
                     cftsToken: cftsToken
                 }
-                const response = packPOST("https://accountsv.838483.xyz/api/addTagList", pack);
+                const response = await packPOST("https://accountsv.838483.xyz/api/addTagList", pack);
                 if(response.success){
                     alert("添加成功");
                     document.getElementById('addAuthID').close();
@@ -440,7 +440,7 @@
         <h3>username:&nbsp<span id="username"></h3>
         <hr style="width: 100%;">
         <h2>AuthID</h2>
-        <h3>count: <span id="authidCount">/3</span></h3>
+        <h3>count: <span id="authidCount">加载中</span>/3</h3>
         <table id="authSelect">
             <!-- <tr>
                 <td class="authidSelectID">
@@ -528,7 +528,7 @@
         </dialog>
         <hr style="width: 100%;">
         <h2>Tag</h2>
-        <h3>count: <span id="tagCount">/9</span></h3>
+        <h3>count: <span id="tagCount">加载中</span>/9</h3>
         <table id="tagSelect">
             <!-- <tr>
                 <td class="authidSelectID">
@@ -588,11 +588,11 @@
                 <tbody>
                     <tr>
                         <td>authID</td>
-                        <td><input type="text" id="editID" placeholder="test" disabled></td>
+                        <td><input type="text" id="editname" placeholder="test" disabled></td>
                     </tr>
                     <tr>
                         <td>密钥(/^[a-zA-Z0-9@_]+$/)</td>
-                        <td><input type="text" id="editKey" placeholder="1234"></td>
+                        <td><input type="text" id="editKey1" placeholder="1234"></td>
                     </tr>
                 </tbody>
             </table>
