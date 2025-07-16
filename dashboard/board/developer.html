@@ -283,7 +283,7 @@
                         // document.getElementById("authidSelectKey").appendChild(key);  // 使用 appendChild 方法添加元素
                         document.getElementById("tagSelect").innerHTML += "<tr><td class='tagSelect'><input type='checkbox' id='"+i+"' class='SelectCheckbox'></td><td class='tagSelectID'>" + response[i + "name"] + "</td><td class='tagSelectKey'>" + response[i + "key"] + "</td></tr>";  // 使用 innerHTML 字符串拼接添加元素，
                     }
-                    taglist = response;
+                    tagList = response;
                     console.log('tagList',tagList)
                 }else{
                     alert("Failed to get tag count.");
