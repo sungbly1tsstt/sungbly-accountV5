@@ -21,6 +21,8 @@ tags: [saV5,config,important]
 - `headers`：自定义请求头，对象类型，可选
 
 其中为了确保不会出现错误 targetUrl需要和POST提交地址一致
+
+推荐用我们的调试工具来调用api 已内置该请求格式 [调试工具](//accountsv.838483.xyz/post) (在主域名不可用时备用域名也不可使用)
 ## 示例
 这是login函数的请求代码片段:
 ```javaScript
@@ -55,3 +57,20 @@ await $.ajax({
 }
 ```
 ${error.message}为服务器错误信息
+当提交信息内包含特殊字符（/^[a-zA-Z0-9@_-]+$/）（除邮箱外）将会返回
+```json
+{"code":401,"text":"Not Allow2"}
+```
+当提交参数缺失时将会返回
+```json
+{"code":401,"text":"Not Allow1"}
+```
+
+# 服务器地址
+现在sungbly accountV5（后端）的有三个地址:
+- accountsv.838483.xyz
+- accountsv.838483.dpdns.org
+- accountsv.sungbly.dpdns.org
+
+其中accountsv.838483.xyz是主地址 其他两个是备用地址(不太稳定)
+当主地址访问失效是请将文档里的accountsv.838483.xyz更换成备用地址
